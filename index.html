@@ -301,6 +301,42 @@
   }
   .err:empty{display:none;}
 
+  /* ---------- SEPARADOR "O" ENTRE ID Y CÓDIGO ---------- */
+  .or-divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:14px 0;
+    font-size:11px;
+    font-weight:400;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .or-divider::before,
+  .or-divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:rgba(229,231,235,0.18);
+  }
+
+  /* ---------- MENSAJE DE ERROR COMBINADO (ID/CÓDIGO) ---------- */
+  .combo-error{
+    display:block;
+    margin-top:10px;
+    padding:10px 12px;
+    background:rgba(255,107,107,0.10);
+    border-left:2px solid #ff6b6b;
+    border-radius:0 var(--r-input) var(--r-input) 0;
+    font-size:12px;
+    font-weight:400;
+    letter-spacing:-0.24px;
+    color:#ff9a9a;
+    line-height:1.5;
+  }
+  .combo-error:empty{display:none;}
+
   /* ============================================================
      STARS
      ============================================================ */
@@ -692,7 +728,6 @@
               <label class="chip"><input type="checkbox" id="chkOtro" name="aspectos" value="Otro"><span>Otro</span></label>
             </div>
 
-            <!-- Especificación de "Otro" (se muestra solo si se marca) -->
             <div class="otro-wrap hidden" id="otroWrap">
               <label class="label" for="otroDetalle">¿Qué otro aspecto quieres mencionar? <span class="req">Obligatorio</span></label>
               <input type="text" id="otroDetalle" name="otroDetalle" placeholder="Ej. estacionamiento, música, limpieza del local…">
@@ -737,7 +772,7 @@
         <!-- =============== STEP 4 — Datos de contacto =============== -->
         <section class="step" data-step="4">
           <h2 class="step-title">Déjanos tus datos</h2>
-          <p class="step-sub">Todos los campos son obligatorios, salvo la foto del ticket.</p>
+          <p class="step-sub">Todos los campos son obligatorios, salvo la foto del ticket. En la sección del ticket puedes llenar <strong style="color:var(--cream);font-weight:450;">cualquiera de los dos</strong> (ID de pedido o código de ticket).</p>
 
           <div class="field">
             <label class="label" for="nombre">Nombre</label>
@@ -757,16 +792,26 @@
             <span class="err" id="err-correo"></span>
           </div>
 
+          <!-- ---------- SECCIÓN TICKET: ID O CÓDIGO ---------- -->
           <div class="field">
-            <label class="label" for="idPedido">ID de pedido <span class="req">Obligatorio</span></label>
-            <input type="text" id="idPedido" name="idPedido" inputmode="numeric" placeholder="Ej. 808105935018">
-            <span class="err" id="err-idPedido"></span>
-          </div>
+            <label class="label">Identifica tu pedido <span class="req">Llena al menos uno</span></label>
+            <span class="label-hint">Puedes usar el ID de pedido, el código de ticket, o ambos si los tienes a mano.</span>
 
-          <div class="field">
-            <label class="label" for="codigoTicket">Código de ticket <span class="req">Obligatorio</span></label>
-            <input type="text" id="codigoTicket" name="codigoTicket" placeholder="Ej. 3080MUJ9MCT2">
-            <span class="err" id="err-codigoTicket"></span>
+            <div style="margin-top:12px;">
+              <label class="label" for="idPedido" style="font-weight:400;font-size:13px;color:var(--muted);">ID de pedido <span class="opt-inline">(opcional)</span></label>
+              <input type="text" id="idPedido" name="idPedido" inputmode="numeric" placeholder="Ej. 808105935018">
+              <span class="err" id="err-idPedido"></span>
+            </div>
+
+            <div class="or-divider" aria-hidden="true"><span>o</span></div>
+
+            <div>
+              <label class="label" for="codigoTicket" style="font-weight:400;font-size:13px;color:var(--muted);">Código de ticket <span class="opt-inline">(opcional)</span></label>
+              <input type="text" id="codigoTicket" name="codigoTicket" placeholder="Ej. 3080MUJ9MCT2">
+              <span class="err" id="err-codigoTicket"></span>
+            </div>
+
+            <span class="combo-error" id="err-combo"></span>
           </div>
 
           <div class="field">
@@ -850,6 +895,9 @@ const progressNums  = document.querySelectorAll('.p-num');
 const chkOtro       = document.getElementById('chkOtro');
 const otroWrap      = document.getElementById('otroWrap');
 const otroDetalle   = document.getElementById('otroDetalle');
+const idPedido      = document.getElementById('idPedido');
+const codigoTicket  = document.getElementById('codigoTicket');
+const comboError    = document.getElementById('err-combo');
 
 let rating = 0;
 
@@ -882,7 +930,6 @@ function goToStep(n) {
 
 document.querySelectorAll('[data-next]').forEach(function (btn) {
   btn.addEventListener('click', function () {
-    // Validar "Otro" antes de pasar al paso 3
     if (btn.dataset.next === '3' && !validarPaso2()) return;
     goToStep(Number(btn.dataset.next));
   });
@@ -1000,11 +1047,19 @@ function clearAllErrors() {
     const input = document.getElementById(id);
     if (input) setError(input, '');
   });
+  if (comboError) comboError.textContent = '';
 }
+
 ['nombre', 'telefono', 'correo', 'idPedido', 'codigoTicket', 'descripcion', 'otroDetalle'].forEach(function (id) {
   const input = document.getElementById(id);
   if (!input) return;
-  input.addEventListener('input', function () { setError(input, ''); });
+  input.addEventListener('input', function () {
+    setError(input, '');
+    // Limpiar el error combinado de ID/Código al escribir en cualquiera de los dos
+    if (id === 'idPedido' || id === 'codigoTicket') {
+      if (comboError) comboError.textContent = '';
+    }
+  });
 });
 
 /* --- Validación del paso 2 (solo "Otro") --- */
@@ -1018,7 +1073,8 @@ function validarPaso2() {
   return true;
 }
 
-/* --- Validación de la sección de contacto (todo obligatorio salvo foto) --- */
+/* --- Validación de la sección de contacto ---
+   ID y Código son alternativos: se requiere al menos uno. */
 function validarContacto() {
   clearAllErrors();
   let valido = true;
@@ -1050,22 +1106,29 @@ function validarContacto() {
     valido = false; primerError = primerError || correo;
   }
 
-  const idPedido = document.getElementById('idPedido');
-  if (!idPedido.value.trim()) {
-    setError(idPedido, 'El ID de pedido es obligatorio.');
-    valido = false; primerError = primerError || idPedido;
-  } else if (idPedido.value.replace(/\D/g, '').length < 8) {
-    setError(idPedido, 'Revisa el ID de pedido (mínimo 8 dígitos).');
-    valido = false; primerError = primerError || idPedido;
-  }
+  /* ---------- ID / CÓDIGO: al menos uno ---------- */
+  const idVal = idPedido.value.trim();
+  const codVal = codigoTicket.value.trim();
 
-  const codigoTicket = document.getElementById('codigoTicket');
-  if (!codigoTicket.value.trim()) {
-    setError(codigoTicket, 'El código de ticket es obligatorio.');
-    valido = false; primerError = primerError || codigoTicket;
-  } else if (codigoTicket.value.trim().length < 6) {
-    setError(codigoTicket, 'Revisa el código de ticket (mínimo 6 caracteres).');
-    valido = false; primerError = primerError || codigoTicket;
+  if (!idVal && !codVal) {
+    // Ninguno lleno → error combinado
+    if (comboError) {
+      comboError.textContent = 'Llena al menos uno: el ID de pedido o el código de ticket.';
+    }
+    idPedido.classList.add('invalid');
+    codigoTicket.classList.add('invalid');
+    valido = false;
+    primerError = primerError || idPedido;
+  } else {
+    // Validación ligera si se llenó alguno
+    if (idVal && idVal.replace(/\D/g, '').length < 8) {
+      setError(idPedido, 'Revisa el ID de pedido (mínimo 8 dígitos).');
+      valido = false; primerError = primerError || idPedido;
+    }
+    if (codVal && codVal.length < 6) {
+      setError(codigoTicket, 'Revisa el código de ticket (mínimo 6 caracteres).');
+      valido = false; primerError = primerError || codigoTicket;
+    }
   }
 
   const descripcion = document.getElementById('descripcion');
@@ -1109,7 +1172,6 @@ function enviarAlWebhook(datos) {
    11) ENVÍO DEL FORMULARIO
    ============================================================ */
 function enviarFormulario() {
-  // Validar "Otro" del paso 2 por si el usuario volvió y cambió
   if (!validarPaso2()) {
     goToStep(2);
     return;
@@ -1117,12 +1179,14 @@ function enviarFormulario() {
 
   const esSi = document.querySelector('input[name="contacto"]:checked').value === 'si';
 
-  // Si pidió contacto, validar todos los campos del paso 4
   if (esSi && !validarContacto()) return;
 
   const aspectosSeleccionados = Array.from(
     document.querySelectorAll('input[name="aspectos"]:checked')
   ).map(function (c) { return c.value; });
+
+  const idVal  = idPedido.value.trim();
+  const codVal = codigoTicket.value.trim();
 
   const datos = {
     // Paso 1
@@ -1137,16 +1201,19 @@ function enviarFormulario() {
     // Paso 3
     quiereContacto: document.querySelector('input[name="contacto"]:checked').value,
 
-    // Paso 4 (todos obligatorios salvo foto)
+    // Paso 4
     nombre:         document.getElementById('nombre').value.trim(),
     telefono:       document.getElementById('telefono').value.trim(),
     correo:         document.getElementById('correo').value.trim(),
-    idPedido:       document.getElementById('idPedido').value.trim(),
-    codigoTicket:   document.getElementById('codigoTicket').value.trim(),
+    idPedido:       idVal,
+    codigoTicket:   codVal,
+    // Campo combinado útil para el CRM: siempre tendrá un valor
+    identificador:  idVal || codVal,
+    tipoIdentificador: idVal && codVal ? "ambos" : (idVal ? "id_pedido" : (codVal ? "codigo_ticket" : "")),
     descripcion:    document.getElementById('descripcion').value.trim(),
     fotoTicket:     ((document.getElementById('fotoTicket').files[0] || {}).name) || "",
 
-    // Metadatos para Make / Google Sheets
+    // Metadatos
     test:      "chubbies-encuesta-v1",
     origen:    "Landing Chubbies Burger - Encuesta de satisfacción",
     timestamp: new Date().toISOString(),
@@ -1154,7 +1221,7 @@ function enviarFormulario() {
     pagina:    window.location.href
   };
 
-  enviarAlWebhook(datos); // fire & forget
+  enviarAlWebhook(datos);
 
   form.classList.add('hidden');
   document.querySelector('.progress').classList.add('hidden');
