@@ -28,6 +28,9 @@
     --r-input:  6px;
     --r-btn:    6px;
     --r-card:   10px;
+
+    /* Imagen de fondo del panel crema */
+    --cream-bg-image: url('https://i.ibb.co/6fFJ9sF/IMG-1876.png');
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -52,6 +55,17 @@
   }
   .hidden{display:none !important;}
 
+  .sr-only{
+    position:absolute !important;
+    width:1px;height:1px;
+    padding:0;margin:-1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    clip-path:inset(50%);
+    white-space:nowrap;
+    border:0;
+  }
+
   /* ============================================================
      DIPTYCH SPLIT
      ============================================================ */
@@ -64,22 +78,56 @@
     .split{grid-template-columns:1fr;}
   }
 
+  /* ---------- LEFT: CREAM PANEL ---------- */
   .panel-cream{
-    background:var(--cream);
+    position:relative;
+    background-color:var(--cream);
     color:var(--void);
+    min-height:100vh;
+    /* La imagen ahora vive en un <img> con object-fit: cover
+       para adaptarse perfectamente a cualquier pantalla. */
+    overflow:hidden;
+  }
+  @media (min-width:901px){
+    .panel-cream{
+      position:sticky;
+      top:0;
+      height:100vh;
+    }
+  }
+
+  /* Imagen de fondo: cubre todo el panel */
+  .panel-cream .bg-image{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;         /* se adapta a la pantalla */
+    object-position:center;   /* centrada; ajusta si quieres top/bottom */
+    z-index:0;
+    pointer-events:none;
+    user-select:none;
+  }
+
+  /* Contenido por encima de la imagen */
+  .panel-cream-inner{
+    position:relative;
+    z-index:1;
+    height:100%;
+    min-height:100vh;
     padding:44px 48px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-    min-height:100vh;
-  }
-  @media (min-width:901px){
-    .panel-cream{ position:sticky; top:0; height:100vh; }
   }
   @media (max-width:900px){
-    .panel-cream{ min-height:auto; padding:32px 24px 40px; }
+    .panel-cream-inner{
+      min-height:100vh;
+      padding:32px 24px 40px;
+    }
   }
 
+  /* ---------- BRAND ---------- */
   .brand{
     display:flex;
     align-items:center;
@@ -104,6 +152,7 @@
     color:var(--void);
   }
 
+  /* ---------- CREAM CONTENT ---------- */
   .cream-content{ padding:56px 0; }
   @media (max-width:900px){
     .cream-content{padding:40px 0 24px;}
@@ -132,12 +181,13 @@
     max-width:38ch;
   }
 
+  /* ---------- FOOTER ---------- */
   .cream-footer{
     display:flex;
     justify-content:space-between;
     align-items:center;
     padding-top:24px;
-    border-top:1px solid var(--hairline);
+    border-top:1px solid rgba(13,13,13,0.12);
     font-size:12px;
     font-weight:300;
     line-height:1.5;
@@ -153,6 +203,7 @@
     vertical-align:1px;
   }
 
+  /* ---------- RIGHT: VOID PANEL ---------- */
   .panel-void{
     background:var(--void);
     color:var(--white);
@@ -301,7 +352,6 @@
   }
   .err:empty{display:none;}
 
-  /* ---------- SEPARADOR "O" ENTRE ID Y CÓDIGO ---------- */
   .or-divider{
     display:flex;
     align-items:center;
@@ -321,7 +371,6 @@
     background:rgba(229,231,235,0.18);
   }
 
-  /* ---------- MENSAJE DE ERROR COMBINADO (ID/CÓDIGO) ---------- */
   .combo-error{
     display:block;
     margin-top:10px;
@@ -427,7 +476,6 @@
     outline-offset:2px;
   }
 
-  /* ---------- OTRO ESPECIFICAR ---------- */
   .otro-wrap{
     margin-top:12px;
     padding-top:14px;
@@ -436,7 +484,7 @@
   }
 
   /* ============================================================
-     OPTIONS (radio)
+     OPTIONS
      ============================================================ */
   .options{
     display:flex;
@@ -565,15 +613,6 @@
     color:var(--cream);
     word-break:break-word;
   }
-  .sr-only{
-    position:absolute;
-    width:1px;height:1px;
-    padding:0;margin:-1px;
-    overflow:hidden;
-    clip:rect(0 0 0 0);
-    white-space:nowrap;
-    border:0;
-  }
   .req{
     display:inline-block;
     margin-left:6px;
@@ -645,21 +684,31 @@
 <div class="split">
 
   <!-- ===================== LEFT — CREAM PANEL ===================== -->
-  <aside class="panel-cream">
-    <header class="brand">
-      <span class="brand-mark" aria-hidden="true">🍔</span>
-      <span class="brand-name">Chubbies Burger</span>
-    </header>
+  <aside class="panel-cream" aria-label="Chubbies Burger · Encuesta de satisfacción">
 
-    <div class="cream-content">
-      <h1 class="display">¿Cómo<br>estuvo<br>tu pedido?</h1>
-      <p class="lead">Tu opinión nos ayuda a mejorar la experiencia Chubbies Burger.</p>
+    <!-- Imagen de fondo: se adapta a la pantalla con object-fit: cover -->
+    <img class="bg-image" src="https://i.ibb.co/6fFJ9sF/IMG-1876.png" alt="" aria-hidden="true">
+
+    <!-- Contenido visible por encima de la imagen -->
+    <div class="panel-cream-inner">
+
+      <header class="brand">
+        <span class="brand-mark" aria-hidden="true">🍔</span>
+        <span class="brand-name">Chubbies Burger</span>
+      </header>
+
+      <div class="cream-content">
+        <h1 class="display">¿Cómo<br>estuvo<br>tu pedido?</h1>
+        <p class="lead">Tu opinión nos ayuda a mejorar la experiencia Chubbies Burger.</p>
+      </div>
+
+      <footer class="cream-footer">
+        <span><span class="dot" aria-hidden="true"></span>Encuesta de satisfacción</span>
+        <span>© 2026</span>
+      </footer>
+
     </div>
 
-    <footer class="cream-footer">
-      <span><span class="dot" aria-hidden="true"></span>Encuesta de satisfacción</span>
-      <span>© 2026</span>
-    </footer>
   </aside>
 
   <!-- ===================== RIGHT — VOID PANEL ===================== -->
@@ -680,7 +729,7 @@
       <!-- ---------- FORM WIZARD ---------- -->
       <form id="surveyForm" novalidate>
 
-        <!-- =============== STEP 1 — Sucursal + Estrellas =============== -->
+        <!-- =============== STEP 1 =============== -->
         <section class="step active" data-step="1">
           <h2 class="step-title">¿De qué sucursal pediste?</h2>
           <p class="step-sub">Selecciona tu sucursal y luego califica tu experiencia.</p>
@@ -708,7 +757,7 @@
           </div>
         </section>
 
-        <!-- =============== STEP 2 — Qué mejorar =============== -->
+        <!-- =============== STEP 2 =============== -->
         <section class="step" data-step="2">
           <h2 class="step-title">¿Qué podemos mejorar?</h2>
           <p class="step-sub" id="ratingEcho">Selecciona todos los aspectos que apliquen.</p>
@@ -747,7 +796,7 @@
           </div>
         </section>
 
-        <!-- =============== STEP 3 — Atención personalizada =============== -->
+        <!-- =============== STEP 3 =============== -->
         <section class="step" data-step="3">
           <h2 class="step-title">¿Quieres que te contactemos?</h2>
           <p class="step-sub">Si prefieres, nuestro equipo de atención puede escribirte para ayudarte.</p>
@@ -769,7 +818,7 @@
           </div>
         </section>
 
-        <!-- =============== STEP 4 — Datos de contacto =============== -->
+        <!-- =============== STEP 4 =============== -->
         <section class="step" data-step="4">
           <h2 class="step-title">Déjanos tus datos</h2>
           <p class="step-sub">Todos los campos son obligatorios, salvo la foto del ticket. En la sección del ticket puedes llenar <strong style="color:var(--cream);font-weight:450;">cualquiera de los dos</strong> (ID de pedido o código de ticket).</p>
@@ -792,7 +841,6 @@
             <span class="err" id="err-correo"></span>
           </div>
 
-          <!-- ---------- SECCIÓN TICKET: ID O CÓDIGO ---------- -->
           <div class="field">
             <label class="label">Identifica tu pedido <span class="req">Llena al menos uno</span></label>
             <span class="label-hint">Puedes usar el ID de pedido, el código de ticket, o ambos si los tienes a mano.</span>
@@ -850,7 +898,7 @@
 
 <script>
 /* ============================================================
-   0) CONFIGURACIÓN DEL WEBHOOK DE MAKE.COM
+   0) WEBHOOK DE MAKE.COM
    ------------------------------------------------------------
    👉  REEMPLAZA ESTA URL por la de tu Custom Webhook de Make.com  👈
    ============================================================ */
@@ -902,7 +950,7 @@ const comboError    = document.getElementById('err-combo');
 let rating = 0;
 
 /* ============================================================
-   3) CONSTRUIR SELECTOR DE SUCURSALES
+   3) SELECTOR DE SUCURSALES
    ============================================================ */
 Object.keys(sucursales).forEach(function (nombre) {
   const opt = document.createElement('option');
@@ -912,7 +960,7 @@ Object.keys(sucursales).forEach(function (nombre) {
 });
 
 /* ============================================================
-   4) WIZARD — NAVEGACIÓN
+   4) WIZARD
    ============================================================ */
 function goToStep(n) {
   document.querySelectorAll('.step').forEach(function (s) {
@@ -950,7 +998,6 @@ function paintStars(n) {
     star.setAttribute('aria-checked', (on && i === n - 1) ? 'true' : 'false');
   });
 }
-
 stars.forEach(function (star, i) {
   star.addEventListener('mouseenter', function () { paintStars(i + 1); });
   star.addEventListener('focus',      function () { paintStars(i + 1); });
@@ -971,7 +1018,6 @@ function handleRating(value) {
 
   branchWarning.classList.add('hidden');
 
-  /* ---------- 5 ESTRELLAS → REDIRECCIÓN A GOOGLE ---------- */
   if (value === 5) {
     rating = 5;
     paintStars(5);
@@ -979,7 +1025,6 @@ function handleRating(value) {
     return;
   }
 
-  /* ---------- 1 a 4 ESTRELLAS → PASO 2 ---------- */
   rating = value;
   paintStars(value);
   ratingEcho.textContent = 'Calificaste con ' + value + ' de 5 estrellas. Cuéntanos qué podemos mejorar.';
@@ -991,7 +1036,7 @@ selectSuc.addEventListener('change', function () {
 });
 
 /* ============================================================
-   6) "OTRO" — MOSTRAR / OCULTAR ESPECIFICACIÓN
+   6) "OTRO"
    ============================================================ */
 chkOtro.addEventListener('change', function () {
   if (chkOtro.checked) {
@@ -1005,7 +1050,7 @@ chkOtro.addEventListener('change', function () {
 });
 
 /* ============================================================
-   7) ATENCIÓN PERSONALIZADA (Sí/No)
+   7) CONTACTO
    ============================================================ */
 document.querySelectorAll('input[name="contacto"]').forEach(function (radio) {
   radio.addEventListener('change', function () {
@@ -1049,20 +1094,17 @@ function clearAllErrors() {
   });
   if (comboError) comboError.textContent = '';
 }
-
 ['nombre', 'telefono', 'correo', 'idPedido', 'codigoTicket', 'descripcion', 'otroDetalle'].forEach(function (id) {
   const input = document.getElementById(id);
   if (!input) return;
   input.addEventListener('input', function () {
     setError(input, '');
-    // Limpiar el error combinado de ID/Código al escribir en cualquiera de los dos
     if (id === 'idPedido' || id === 'codigoTicket') {
       if (comboError) comboError.textContent = '';
     }
   });
 });
 
-/* --- Validación del paso 2 (solo "Otro") --- */
 function validarPaso2() {
   if (chkOtro.checked && !otroDetalle.value.trim()) {
     setError(otroDetalle, 'Cuéntanos qué otro aspecto quieres mencionar.');
@@ -1073,8 +1115,6 @@ function validarPaso2() {
   return true;
 }
 
-/* --- Validación de la sección de contacto ---
-   ID y Código son alternativos: se requiere al menos uno. */
 function validarContacto() {
   clearAllErrors();
   let valido = true;
@@ -1106,12 +1146,10 @@ function validarContacto() {
     valido = false; primerError = primerError || correo;
   }
 
-  /* ---------- ID / CÓDIGO: al menos uno ---------- */
-  const idVal = idPedido.value.trim();
+  const idVal  = idPedido.value.trim();
   const codVal = codigoTicket.value.trim();
 
   if (!idVal && !codVal) {
-    // Ninguno lleno → error combinado
     if (comboError) {
       comboError.textContent = 'Llena al menos uno: el ID de pedido o el código de ticket.';
     }
@@ -1120,7 +1158,6 @@ function validarContacto() {
     valido = false;
     primerError = primerError || idPedido;
   } else {
-    // Validación ligera si se llenó alguno
     if (idVal && idVal.replace(/\D/g, '').length < 8) {
       setError(idPedido, 'Revisa el ID de pedido (mínimo 8 dígitos).');
       valido = false; primerError = primerError || idPedido;
@@ -1148,7 +1185,7 @@ function validarContacto() {
 }
 
 /* ============================================================
-   10) ENVÍO AL WEBHOOK (Make.com)
+   10) WEBHOOK (Make.com)
    ============================================================ */
 function enviarAlWebhook(datos) {
   try {
@@ -1163,9 +1200,9 @@ function enviarAlWebhook(datos) {
       headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
       body: params.toString(),
       keepalive: true
-    }).catch(function () { /* silencioso */ });
+    }).catch(function () {});
 
-  } catch (e) { /* silencioso */ }
+  } catch (e) {}
 }
 
 /* ============================================================
@@ -1178,7 +1215,6 @@ function enviarFormulario() {
   }
 
   const esSi = document.querySelector('input[name="contacto"]:checked').value === 'si';
-
   if (esSi && !validarContacto()) return;
 
   const aspectosSeleccionados = Array.from(
@@ -1189,31 +1225,22 @@ function enviarFormulario() {
   const codVal = codigoTicket.value.trim();
 
   const datos = {
-    // Paso 1
     sucursal:       selectSuc.value,
     calificacion:   String(rating),
-
-    // Paso 2
     aspectos:       aspectosSeleccionados.join(" | "),
     otroDetalle:    chkOtro.checked ? otroDetalle.value.trim() : "",
     comentario:     document.getElementById('comentario').value.trim(),
-
-    // Paso 3
     quiereContacto: document.querySelector('input[name="contacto"]:checked').value,
-
-    // Paso 4
     nombre:         document.getElementById('nombre').value.trim(),
     telefono:       document.getElementById('telefono').value.trim(),
     correo:         document.getElementById('correo').value.trim(),
     idPedido:       idVal,
     codigoTicket:   codVal,
-    // Campo combinado útil para el CRM: siempre tendrá un valor
     identificador:  idVal || codVal,
     tipoIdentificador: idVal && codVal ? "ambos" : (idVal ? "id_pedido" : (codVal ? "codigo_ticket" : "")),
     descripcion:    document.getElementById('descripcion').value.trim(),
     fotoTicket:     ((document.getElementById('fotoTicket').files[0] || {}).name) || "",
 
-    // Metadatos
     test:      "chubbies-encuesta-v1",
     origen:    "Landing Chubbies Burger - Encuesta de satisfacción",
     timestamp: new Date().toISOString(),
