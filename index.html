@@ -86,11 +86,6 @@
 
   /* ============================================================
      LEFT — CREAM PANEL
-     ------------------------------------------------------------
-     La imagen se usa como background-image del propio panel.
-     CSS la escala con background-size:cover → imposible que
-     desborde o se salga. La altura está fijada a 100dvh
-     (Dynamic Viewport Height) → nunca crece más que la pantalla.
      ============================================================ */
   .panel-cream{
     position:relative;
@@ -114,10 +109,10 @@
   }
   @media (max-width:900px){
     .panel-cream{
-      /* En móvil mantenemos 100dvh fijo, sin importar el contenido */
-      height:100vh;
-      height:100dvh;
-      min-height:0;
+      /* Reducimos a la mitad de pantalla para que se vea el formulario */
+      height: 48vh; 
+      height: 48dvh;
+      min-height: 320px; /* Evita que se haga demasiado chico en pantallas muy bajas */
     }
   }
 
@@ -135,8 +130,12 @@
   }
   @media (max-width:900px){
     .panel-cream-inner{
-      padding:26px 22px 28px;
-      gap:14px;
+      padding:20px 22px;
+      gap:8px;
+      justify-content:center; /* Centramos el contenido verticalmente */
+    }
+    .cream-footer{
+      display:none; /* Ocultamos el footer en móvil para ahorrar espacio */
     }
   }
 
@@ -188,8 +187,11 @@
   }
   @media (max-width:900px){
     .display{
-      font-size:clamp(30px, 8.5vw, 44px);
-      margin-bottom:14px;
+      font-size:clamp(26px, 7vw, 36px);
+      margin-bottom:8px;
+    }
+    .lead{
+      font-size:13px;
     }
   }
 
@@ -204,7 +206,6 @@
   }
   @media (max-width:900px){
     .lead{
-      font-size:14px;
       line-height:1.4;
       max-width:32ch;
     }
