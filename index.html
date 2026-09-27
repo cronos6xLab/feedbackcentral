@@ -28,6 +28,9 @@
     --r-input:  6px;
     --r-btn:    6px;
     --r-card:   10px;
+
+    /* 👇 Imagen de fondo — cámbiala aquí si actualizas el diseño */
+    --cream-bg-image: url('https://i.ibb.co/6fFJ9sF/IMG-1876.png');
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -43,7 +46,7 @@
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
     -webkit-text-size-adjust:100%;
-    overflow-x:hidden;              /* evita scroll horizontal si algo se desborda */
+    overflow-x:hidden;
   }
   button, input, select, textarea{
     font-family:inherit;
@@ -71,74 +74,69 @@
     display:grid;
     grid-template-columns:1fr 1fr;
     min-height:100vh;
+    min-height:100dvh;
     width:100%;
   }
   @media (max-width:900px){
     .split{
       grid-template-columns:1fr;
-      min-height:100vh;
+      min-height:auto;
     }
   }
 
   /* ============================================================
      LEFT — CREAM PANEL
      ------------------------------------------------------------
-     La imagen va como fondo absoluto dentro del panel (que tiene
-     overflow:hidden) y se adapta con object-fit: cover. El texto
-     HTML se muestra POR ENCIMA con z-index y sombra sutil.
+     La imagen se usa como background-image del propio panel.
+     CSS la escala con background-size:cover → imposible que
+     desborde o se salga. La altura está fijada a 100dvh
+     (Dynamic Viewport Height) → nunca crece más que la pantalla.
      ============================================================ */
   .panel-cream{
     position:relative;
     overflow:hidden;
     background-color:var(--cream);
-    min-height:100vh;
+    background-image:var(--cream-bg-image);
+    background-size:cover;
+    background-position:center center;
+    background-repeat:no-repeat;
+    height:100vh;
+    height:100dvh;
     width:100%;
-    isolation:isolate;              /* crea stacking context propio */
   }
   @media (min-width:901px){
     .panel-cream{
       position:sticky;
       top:0;
       height:100vh;
-      min-height:100vh;
+      height:100dvh;
     }
   }
   @media (max-width:900px){
     .panel-cream{
-      min-height:100vh;
-      height:auto;
+      /* En móvil mantenemos 100dvh fijo, sin importar el contenido */
+      height:100vh;
+      height:100dvh;
+      min-height:0;
     }
   }
 
-  /* Imagen: siempre cubre el panel sin deformarse ni desbordar */
-  .panel-cream .bg-image{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center center;
-    z-index:0;
-    pointer-events:none;
-    user-select:none;
-    display:block;
-  }
-
-  /* Capa de contenido POR ENCIMA de la imagen */
+  /* Contenido por encima, con altura 100% y overflow hidden */
   .panel-cream-inner{
     position:relative;
     z-index:1;
-    min-height:100vh;
-    padding:44px 48px;
+    height:100%;
+    padding:40px 48px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-    gap:24px;
+    gap:20px;
+    overflow:hidden;
   }
   @media (max-width:900px){
     .panel-cream-inner{
-      min-height:100vh;
-      padding:32px 24px 40px;
+      padding:26px 22px 28px;
+      gap:14px;
     }
   }
 
@@ -169,44 +167,47 @@
 
   /* ---------- CREAM CONTENT ---------- */
   .cream-content{
-    padding:32px 0;
     flex:1;
     display:flex;
     flex-direction:column;
     justify-content:center;
+    padding:16px 0;
+    min-height:0;
   }
 
   .display{
     font-family:var(--font-extended);
     font-weight:900;
-    font-size:clamp(38px, 4.6vw, 68px);
+    font-size:clamp(36px, 4.4vw, 64px);
     line-height:1.06;
     letter-spacing:0.01em;
     text-transform:uppercase;
     color:var(--void);
-    margin:0 0 28px;
-    /* Sombra sutil para legibilidad sobre la imagen */
-    text-shadow:0 1px 2px rgba(255,237,210,0.6);
+    margin:0 0 22px;
+    text-shadow:0 1px 2px rgba(255,237,210,0.55);
   }
   @media (max-width:900px){
     .display{
-      font-size:clamp(34px, 9vw, 52px);
-      margin-bottom:20px;
+      font-size:clamp(30px, 8.5vw, 44px);
+      margin-bottom:14px;
     }
   }
 
   .lead{
     font-size:16px;
     font-weight:400;
-    line-height:1.5;
+    line-height:1.45;
     letter-spacing:-0.32px;
     color:var(--void);
     max-width:38ch;
-    /* Sombra sutil para legibilidad sobre la imagen */
-    text-shadow:0 1px 2px rgba(255,237,210,0.6);
+    text-shadow:0 1px 2px rgba(255,237,210,0.55);
   }
   @media (max-width:900px){
-    .lead{font-size:15px;}
+    .lead{
+      font-size:14px;
+      line-height:1.4;
+      max-width:32ch;
+    }
   }
 
   /* ---------- FOOTER ---------- */
@@ -214,14 +215,21 @@
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding-top:24px;
+    padding-top:18px;
     border-top:1px solid rgba(13,13,13,0.18);
     font-size:12px;
     font-weight:400;
-    line-height:1.5;
+    line-height:1.4;
     letter-spacing:-0.24px;
     color:#7A6E66;
     text-shadow:0 1px 2px rgba(255,237,210,0.5);
+    flex-shrink:0;
+  }
+  @media (max-width:900px){
+    .cream-footer{
+      font-size:11px;
+      padding-top:14px;
+    }
   }
   .cream-footer .dot{
     display:inline-block;
@@ -243,6 +251,7 @@
     align-items:center;
     justify-content:center;
     min-height:100vh;
+    min-height:100dvh;
     width:100%;
   }
   @media (max-width:900px){
@@ -718,15 +727,7 @@
   <!-- ===================== LEFT — CREAM PANEL ===================== -->
   <aside class="panel-cream" aria-label="Chubbies Burger · Encuesta de satisfacción">
 
-    <!-- Imagen: cubre el panel sin desbordar gracias a overflow:hidden + object-fit:cover -->
-    <img class="bg-image"
-         src="https://i.ibb.co/6fFJ9sF/IMG-1876.png"
-         alt=""
-         aria-hidden="true"
-         loading="eager"
-         decoding="async">
-
-    <!-- Texto HTML visible POR ENCIMA de la imagen -->
+    <!-- Texto por encima del fondo -->
     <div class="panel-cream-inner">
 
       <header class="brand">
@@ -766,7 +767,7 @@
       <!-- ---------- FORM WIZARD ---------- -->
       <form id="surveyForm" novalidate>
 
-        <!-- =============== STEP 1 =============== -->
+        <!-- STEP 1 -->
         <section class="step active" data-step="1">
           <h2 class="step-title">¿De qué sucursal pediste?</h2>
           <p class="step-sub">Selecciona tu sucursal y luego califica tu experiencia.</p>
@@ -794,7 +795,7 @@
           </div>
         </section>
 
-        <!-- =============== STEP 2 =============== -->
+        <!-- STEP 2 -->
         <section class="step" data-step="2">
           <h2 class="step-title">¿Qué podemos mejorar?</h2>
           <p class="step-sub" id="ratingEcho">Selecciona todos los aspectos que apliquen.</p>
@@ -833,7 +834,7 @@
           </div>
         </section>
 
-        <!-- =============== STEP 3 =============== -->
+        <!-- STEP 3 -->
         <section class="step" data-step="3">
           <h2 class="step-title">¿Quieres que te contactemos?</h2>
           <p class="step-sub">Si prefieres, nuestro equipo de atención puede escribirte para ayudarte.</p>
@@ -855,7 +856,7 @@
           </div>
         </section>
 
-        <!-- =============== STEP 4 =============== -->
+        <!-- STEP 4 -->
         <section class="step" data-step="4">
           <h2 class="step-title">Déjanos tus datos</h2>
           <p class="step-sub">Todos los campos son obligatorios, salvo la foto del ticket. En la sección del ticket puedes llenar <strong style="color:var(--cream);font-weight:450;">cualquiera de los dos</strong> (ID de pedido o código de ticket).</p>
@@ -921,7 +922,7 @@
 
       </form>
 
-      <!-- ---------- THANK YOU ---------- -->
+      <!-- THANK YOU -->
       <section id="thanksScreen" class="thanks hidden">
         <div class="thanks-mark" aria-hidden="true">✓</div>
         <h2>¡Gracias por compartir tu experiencia!</h2>
@@ -936,8 +937,7 @@
 <script>
 /* ============================================================
    0) WEBHOOK DE MAKE.COM
-   ------------------------------------------------------------
-   👉  REEMPLAZA ESTA URL por la de tu Custom Webhook de Make.com  👈
+   👉  REEMPLAZA ESTA URL por la de tu Custom Webhook de Make.com
    ============================================================ */
 const WEBHOOK_URL = "https://hook.us1.make.com/REEMPLAZA_ESTO_POR_TU_WEBHOOK";
 
