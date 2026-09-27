@@ -15,7 +15,6 @@
      TOKENS — Pika Style Reference
      ============================================================ */
   :root{
-    /* Colors */
     --cream:        #ffedd2;
     --void:         #0d0d0d;
     --white:        #ffffff;
@@ -23,19 +22,14 @@
     --muted:        #9e9e9e;
     --charcoal:     #1f1f1f;
 
-    /* Typography */
     --font-telka:      'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     --font-extended:   'Archivo Black', 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-    /* Radii */
     --r-input:  6px;
     --r-btn:    6px;
     --r-card:   10px;
   }
 
-  /* ============================================================
-     BASE
-     ============================================================ */
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{height:100%;}
   body{
@@ -70,7 +64,6 @@
     .split{grid-template-columns:1fr;}
   }
 
-  /* ---------- LEFT: CREAM PANEL ---------- */
   .panel-cream{
     background:var(--cream);
     color:var(--void);
@@ -81,17 +74,10 @@
     min-height:100vh;
   }
   @media (min-width:901px){
-    .panel-cream{
-      position:sticky;
-      top:0;
-      height:100vh;
-    }
+    .panel-cream{ position:sticky; top:0; height:100vh; }
   }
   @media (max-width:900px){
-    .panel-cream{
-      min-height:auto;
-      padding:32px 24px 40px;
-    }
+    .panel-cream{ min-height:auto; padding:32px 24px 40px; }
   }
 
   .brand{
@@ -118,14 +104,11 @@
     color:var(--void);
   }
 
-  .cream-content{
-    padding:56px 0;
-  }
+  .cream-content{ padding:56px 0; }
   @media (max-width:900px){
     .cream-content{padding:40px 0 24px;}
   }
 
-  /* ---------- THE ONE DISPLAY MOMENT ---------- */
   .display{
     font-family:var(--font-extended);
     font-weight:900;
@@ -170,7 +153,6 @@
     vertical-align:1px;
   }
 
-  /* ---------- RIGHT: VOID PANEL ---------- */
   .panel-void{
     background:var(--void);
     color:var(--white);
@@ -208,13 +190,8 @@
     transition:color .25s ease;
     font-variant-numeric:tabular-nums;
   }
-  .p-num.active{
-    color:var(--cream);
-    font-weight:450;
-  }
-  .p-num.done{
-    color:var(--hairline);
-  }
+  .p-num.active{ color:var(--cream); font-weight:450; }
+  .p-num.done{ color:var(--hairline); }
   .p-line{
     flex:1;
     height:1px;
@@ -222,7 +199,7 @@
   }
 
   /* ============================================================
-     STEPS (each is its own screen)
+     STEPS
      ============================================================ */
   .step{
     display:none;
@@ -253,7 +230,7 @@
   }
 
   /* ============================================================
-     FORM ELEMENTS (on void)
+     FORM ELEMENTS
      ============================================================ */
   .field{margin-bottom:28px;}
 
@@ -302,14 +279,8 @@
     padding-right:42px;
     cursor:pointer;
   }
-  select option{
-    background:var(--void);
-    color:var(--white);
-  }
-  textarea{
-    resize:vertical;
-    min-height:96px;
-  }
+  select option{ background:var(--void); color:var(--white); }
+  textarea{ resize:vertical; min-height:96px; }
   select:focus,
   input:focus,
   textarea:focus{
@@ -317,12 +288,8 @@
     border-color:var(--cream);
   }
   input::placeholder,
-  textarea::placeholder{
-    color:rgba(158,158,158,0.6);
-  }
-  .invalid{
-    border-color:#ff6b6b !important;
-  }
+  textarea::placeholder{ color:rgba(158,158,158,0.6); }
+  .invalid{ border-color:#ff6b6b !important; }
   .err{
     display:block;
     margin-top:8px;
@@ -365,7 +332,6 @@
     border-radius:6px;
   }
 
-  /* ---------- WARNING ---------- */
   .warning{
     margin-top:20px;
     padding:12px 14px;
@@ -380,7 +346,7 @@
   }
 
   /* ============================================================
-     CHIPS (checkbox)
+     CHIPS
      ============================================================ */
   .chips{
     display:grid;
@@ -423,6 +389,14 @@
   .chip input:focus-visible + span{
     outline:2px solid var(--cream);
     outline-offset:2px;
+  }
+
+  /* ---------- OTRO ESPECIFICAR ---------- */
+  .otro-wrap{
+    margin-top:12px;
+    padding-top:14px;
+    border-top:1px solid rgba(229,231,235,0.18);
+    animation:fadeUp .28s ease both;
   }
 
   /* ============================================================
@@ -513,21 +487,15 @@
     background:var(--cream);
     color:var(--void);
   }
-  .btn-primary:hover{
-    background:var(--white);
-  }
-  .btn-primary:active{
-    transform:translateY(1px);
-  }
+  .btn-primary:hover{ background:var(--white); }
+  .btn-primary:active{ transform:translateY(1px); }
   .btn-ghost{
     background:transparent;
     color:var(--cream);
     border:1px solid rgba(229,231,235,0.30);
     padding:14px 18px;
   }
-  .btn-ghost:hover{
-    border-color:var(--cream);
-  }
+  .btn-ghost:hover{ border-color:var(--cream); }
 
   /* ============================================================
      FILE UPLOAD
@@ -685,7 +653,6 @@
             <label class="label" for="sucursal">Sucursal</label>
             <select id="sucursal" name="sucursal">
               <option value="">Selecciona tu sucursal…</option>
-              <!-- Opciones generadas dinámicamente desde `sucursales` -->
             </select>
           </div>
 
@@ -722,7 +689,14 @@
               <label class="chip"><input type="checkbox" name="aspectos" value="Empaque"><span>Empaque</span></label>
               <label class="chip"><input type="checkbox" name="aspectos" value="Atención al cliente"><span>Atención al cliente</span></label>
               <label class="chip"><input type="checkbox" name="aspectos" value="Relación calidad-precio"><span>Relación calidad-precio</span></label>
-              <label class="chip"><input type="checkbox" name="aspectos" value="Otro"><span>Otro</span></label>
+              <label class="chip"><input type="checkbox" id="chkOtro" name="aspectos" value="Otro"><span>Otro</span></label>
+            </div>
+
+            <!-- Especificación de "Otro" (se muestra solo si se marca) -->
+            <div class="otro-wrap hidden" id="otroWrap">
+              <label class="label" for="otroDetalle">¿Qué otro aspecto quieres mencionar? <span class="req">Obligatorio</span></label>
+              <input type="text" id="otroDetalle" name="otroDetalle" placeholder="Ej. estacionamiento, música, limpieza del local…">
+              <span class="err" id="err-otroDetalle"></span>
             </div>
           </div>
 
@@ -763,7 +737,7 @@
         <!-- =============== STEP 4 — Datos de contacto =============== -->
         <section class="step" data-step="4">
           <h2 class="step-title">Déjanos tus datos</h2>
-          <p class="step-sub">Y nos pondremos en contacto contigo a la brevedad.</p>
+          <p class="step-sub">Todos los campos son obligatorios, salvo la foto del ticket.</p>
 
           <div class="field">
             <label class="label" for="nombre">Nombre</label>
@@ -784,18 +758,29 @@
           </div>
 
           <div class="field">
-            <label class="label" for="ticket"># de Ticket <span class="req">Obligatorio</span></label>
-            <input type="text" id="ticket" name="ticket" inputmode="numeric" placeholder="Ej. 10245">
-            <span class="err" id="err-ticket"></span>
+            <label class="label" for="idPedido">ID de pedido <span class="req">Obligatorio</span></label>
+            <input type="text" id="idPedido" name="idPedido" inputmode="numeric" placeholder="Ej. 808105935018">
+            <span class="err" id="err-idPedido"></span>
+          </div>
 
+          <div class="field">
+            <label class="label" for="codigoTicket">Código de ticket <span class="req">Obligatorio</span></label>
+            <input type="text" id="codigoTicket" name="codigoTicket" placeholder="Ej. 3080MUJ9MCT2">
+            <span class="err" id="err-codigoTicket"></span>
+          </div>
+
+          <div class="field">
             <label class="file-label" for="fotoTicket">📷 Adjuntar foto del ticket <span class="opt-inline">(opcional)</span></label>
             <input type="file" id="fotoTicket" name="fotoTicket" accept="image/*" class="sr-only">
             <p class="file-name" id="fileName"></p>
           </div>
 
           <div class="field">
-            <label class="label" for="extra">¿Algo más que debamos saber? <span class="opt-inline">(opcional)</span></label>
-            <textarea id="extra" name="extra" rows="3" placeholder="Escribe aquí cualquier detalle adicional…"></textarea>
+            <label class="label" for="descripcion">Describe lo que sucedió con tu pedido <span class="req">Obligatorio</span></label>
+            <span class="label-hint">Cuéntanos con el mayor detalle posible: qué pediste, qué pasó y en qué momento lo notaste. Mientras más nos cuentes, mejor podremos ayudarte.</span>
+            <textarea id="descripcion" name="descripcion" rows="5" style="margin-top:10px;"
+                      placeholder="Ej. Pedí una hamburguesa doble con papas a las 8:30 pm. Llegó 40 minutos tarde, las papas estaban frías y faltaba uno de los refrescos…"></textarea>
+            <span class="err" id="err-descripcion"></span>
           </div>
 
           <div class="actions">
@@ -828,10 +813,6 @@ const WEBHOOK_URL = "https://hook.us1.make.com/REEMPLAZA_ESTO_POR_TU_WEBHOOK";
 
 /* ============================================================
    1) SUCURSALES + URLs REALES DE GOOGLE REVIEWS
-   ------------------------------------------------------------
-   Para AGREGAR una sucursal nueva, solo añade una línea:
-       "Nombre de la sucursal": "https://g.page/...",
-   La lógica del formulario NO necesita modificarse.
    ============================================================ */
 const sucursales = {
   "Estadio Harp Helú":   "https://search.google.com/local/writereview?placeid=ChIJ1-YkORj90YURKCZg5N0eDQw",
@@ -866,11 +847,14 @@ const optNo         = document.getElementById('optNo');
 const thanksScreen  = document.getElementById('thanksScreen');
 const fileName      = document.getElementById('fileName');
 const progressNums  = document.querySelectorAll('.p-num');
+const chkOtro       = document.getElementById('chkOtro');
+const otroWrap      = document.getElementById('otroWrap');
+const otroDetalle   = document.getElementById('otroDetalle');
 
-let rating = 0; // 0 = sin calificar
+let rating = 0;
 
 /* ============================================================
-   3) CONSTRUIR EL SELECTOR DE SUCURSALES
+   3) CONSTRUIR SELECTOR DE SUCURSALES
    ============================================================ */
 Object.keys(sucursales).forEach(function (nombre) {
   const opt = document.createElement('option');
@@ -880,7 +864,7 @@ Object.keys(sucursales).forEach(function (nombre) {
 });
 
 /* ============================================================
-   4) WIZARD — NAVEGACIÓN ENTRE PASOS
+   4) WIZARD — NAVEGACIÓN
    ============================================================ */
 function goToStep(n) {
   document.querySelectorAll('.step').forEach(function (s) {
@@ -891,7 +875,6 @@ function goToStep(n) {
     p.classList.toggle('active', num === Number(n));
     p.classList.toggle('done', num < Number(n));
   });
-  // Scroll al inicio del panel derecho en móvil
   if (window.innerWidth < 901) {
     document.querySelector('.panel-void').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -899,6 +882,8 @@ function goToStep(n) {
 
 document.querySelectorAll('[data-next]').forEach(function (btn) {
   btn.addEventListener('click', function () {
+    // Validar "Otro" antes de pasar al paso 3
+    if (btn.dataset.next === '3' && !validarPaso2()) return;
     goToStep(Number(btn.dataset.next));
   });
 });
@@ -929,7 +914,6 @@ starRow.addEventListener('mouseleave', function () { paintStars(rating); });
 function handleRating(value) {
   const sucursalElegida = selectSuc.value;
 
-  // Cualquier clic requiere sucursal seleccionada
   if (!sucursalElegida) {
     rating = 0;
     paintStars(0);
@@ -940,7 +924,7 @@ function handleRating(value) {
 
   branchWarning.classList.add('hidden');
 
-  /* ---------- 5 ESTRELLAS → REDIRECCIÓN DIRECTA A GOOGLE ---------- */
+  /* ---------- 5 ESTRELLAS → REDIRECCIÓN A GOOGLE ---------- */
   if (value === 5) {
     rating = 5;
     paintStars(5);
@@ -948,7 +932,7 @@ function handleRating(value) {
     return;
   }
 
-  /* ---------- 1 a 4 ESTRELLAS → SIGUIENTE PASO ---------- */
+  /* ---------- 1 a 4 ESTRELLAS → PASO 2 ---------- */
   rating = value;
   paintStars(value);
   ratingEcho.textContent = 'Calificaste con ' + value + ' de 5 estrellas. Cuéntanos qué podemos mejorar.';
@@ -960,7 +944,21 @@ selectSuc.addEventListener('change', function () {
 });
 
 /* ============================================================
-   6) ATENCIÓN PERSONALIZADA (Sí/No)
+   6) "OTRO" — MOSTRAR / OCULTAR ESPECIFICACIÓN
+   ============================================================ */
+chkOtro.addEventListener('change', function () {
+  if (chkOtro.checked) {
+    otroWrap.classList.remove('hidden');
+    setTimeout(function () { otroDetalle.focus({ preventScroll: true }); }, 100);
+  } else {
+    otroWrap.classList.add('hidden');
+    otroDetalle.value = '';
+    setError(otroDetalle, '');
+  }
+});
+
+/* ============================================================
+   7) ATENCIÓN PERSONALIZADA (Sí/No)
    ============================================================ */
 document.querySelectorAll('input[name="contacto"]').forEach(function (radio) {
   radio.addEventListener('change', function () {
@@ -977,13 +975,12 @@ step3Next.addEventListener('click', function () {
   if (esSi) {
     goToStep(4);
   } else {
-    // Envío directo sin datos de contacto
     enviarFormulario();
   }
 });
 
 /* ============================================================
-   7) FOTO DEL TICKET
+   8) FOTO DEL TICKET
    ============================================================ */
 document.getElementById('fotoTicket').addEventListener('change', function (e) {
   const archivo = e.target.files && e.target.files[0];
@@ -991,7 +988,7 @@ document.getElementById('fotoTicket').addEventListener('change', function (e) {
 });
 
 /* ============================================================
-   8) VALIDACIÓN
+   9) VALIDACIÓN
    ============================================================ */
 function setError(input, mensaje) {
   const box = document.getElementById('err-' + input.id);
@@ -999,17 +996,29 @@ function setError(input, mensaje) {
   input.classList.toggle('invalid', !!mensaje);
 }
 function clearAllErrors() {
-  ['nombre', 'telefono', 'correo', 'ticket'].forEach(function (id) {
+  ['nombre', 'telefono', 'correo', 'idPedido', 'codigoTicket', 'descripcion', 'otroDetalle'].forEach(function (id) {
     const input = document.getElementById(id);
     if (input) setError(input, '');
   });
 }
-['nombre', 'telefono', 'correo', 'ticket'].forEach(function (id) {
+['nombre', 'telefono', 'correo', 'idPedido', 'codigoTicket', 'descripcion', 'otroDetalle'].forEach(function (id) {
   const input = document.getElementById(id);
   if (!input) return;
   input.addEventListener('input', function () { setError(input, ''); });
 });
 
+/* --- Validación del paso 2 (solo "Otro") --- */
+function validarPaso2() {
+  if (chkOtro.checked && !otroDetalle.value.trim()) {
+    setError(otroDetalle, 'Cuéntanos qué otro aspecto quieres mencionar.');
+    otroDetalle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(function () { otroDetalle.focus({ preventScroll: true }); }, 250);
+    return false;
+  }
+  return true;
+}
+
+/* --- Validación de la sección de contacto (todo obligatorio salvo foto) --- */
 function validarContacto() {
   clearAllErrors();
   let valido = true;
@@ -1018,39 +1027,54 @@ function validarContacto() {
   const nombre = document.getElementById('nombre');
   if (!nombre.value.trim()) {
     setError(nombre, 'Por favor escribe tu nombre.');
-    valido = false;
-    primerError = primerError || nombre;
+    valido = false; primerError = primerError || nombre;
   }
 
   const telefono = document.getElementById('telefono');
   const digitos = telefono.value.replace(/\D/g, '');
   if (!telefono.value.trim()) {
     setError(telefono, 'Por favor escribe tu teléfono.');
-    valido = false;
-    primerError = primerError || telefono;
+    valido = false; primerError = primerError || telefono;
   } else if (digitos.length < 10) {
     setError(telefono, 'Ingresa un teléfono de al menos 10 dígitos.');
-    valido = false;
-    primerError = primerError || telefono;
+    valido = false; primerError = primerError || telefono;
   }
 
   const correo = document.getElementById('correo');
   const reCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!correo.value.trim()) {
     setError(correo, 'Por favor escribe tu correo electrónico.');
-    valido = false;
-    primerError = primerError || correo;
+    valido = false; primerError = primerError || correo;
   } else if (!reCorreo.test(correo.value.trim())) {
     setError(correo, 'Ingresa un correo electrónico válido.');
-    valido = false;
-    primerError = primerError || correo;
+    valido = false; primerError = primerError || correo;
   }
 
-  const ticket = document.getElementById('ticket');
-  if (!ticket.value.trim()) {
-    setError(ticket, 'El # de ticket es obligatorio.');
-    valido = false;
-    primerError = primerError || ticket;
+  const idPedido = document.getElementById('idPedido');
+  if (!idPedido.value.trim()) {
+    setError(idPedido, 'El ID de pedido es obligatorio.');
+    valido = false; primerError = primerError || idPedido;
+  } else if (idPedido.value.replace(/\D/g, '').length < 8) {
+    setError(idPedido, 'Revisa el ID de pedido (mínimo 8 dígitos).');
+    valido = false; primerError = primerError || idPedido;
+  }
+
+  const codigoTicket = document.getElementById('codigoTicket');
+  if (!codigoTicket.value.trim()) {
+    setError(codigoTicket, 'El código de ticket es obligatorio.');
+    valido = false; primerError = primerError || codigoTicket;
+  } else if (codigoTicket.value.trim().length < 6) {
+    setError(codigoTicket, 'Revisa el código de ticket (mínimo 6 caracteres).');
+    valido = false; primerError = primerError || codigoTicket;
+  }
+
+  const descripcion = document.getElementById('descripcion');
+  if (!descripcion.value.trim()) {
+    setError(descripcion, 'Cuéntanos qué sucedió con tu pedido.');
+    valido = false; primerError = primerError || descripcion;
+  } else if (descripcion.value.trim().length < 15) {
+    setError(descripcion, 'Añade un poco más de detalle para poder ayudarte.');
+    valido = false; primerError = primerError || descripcion;
   }
 
   if (primerError) {
@@ -1061,12 +1085,7 @@ function validarContacto() {
 }
 
 /* ============================================================
-   9) ENVÍO AL WEBHOOK (Make.com)
-   ------------------------------------------------------------
-   - URLSearchParams + fetch POST con keepalive: true.
-   - Sin await, sin FormData, sin mode:'no-cors'.
-   - Todos los valores como strings planos.
-   - Errores silenciados en try/catch.
+   10) ENVÍO AL WEBHOOK (Make.com)
    ============================================================ */
 function enviarAlWebhook(datos) {
   try {
@@ -1087,12 +1106,18 @@ function enviarAlWebhook(datos) {
 }
 
 /* ============================================================
-   10) ENVÍO DEL FORMULARIO (1 a 4 estrellas)
+   11) ENVÍO DEL FORMULARIO
    ============================================================ */
 function enviarFormulario() {
+  // Validar "Otro" del paso 2 por si el usuario volvió y cambió
+  if (!validarPaso2()) {
+    goToStep(2);
+    return;
+  }
+
   const esSi = document.querySelector('input[name="contacto"]:checked').value === 'si';
 
-  // Si pidió contacto, validar campos antes de enviar
+  // Si pidió contacto, validar todos los campos del paso 4
   if (esSi && !validarContacto()) return;
 
   const aspectosSeleccionados = Array.from(
@@ -1100,17 +1125,26 @@ function enviarFormulario() {
   ).map(function (c) { return c.value; });
 
   const datos = {
+    // Paso 1
     sucursal:       selectSuc.value,
     calificacion:   String(rating),
+
+    // Paso 2
     aspectos:       aspectosSeleccionados.join(" | "),
+    otroDetalle:    chkOtro.checked ? otroDetalle.value.trim() : "",
     comentario:     document.getElementById('comentario').value.trim(),
+
+    // Paso 3
     quiereContacto: document.querySelector('input[name="contacto"]:checked').value,
+
+    // Paso 4 (todos obligatorios salvo foto)
     nombre:         document.getElementById('nombre').value.trim(),
     telefono:       document.getElementById('telefono').value.trim(),
     correo:         document.getElementById('correo').value.trim(),
-    ticket:         document.getElementById('ticket').value.trim(),
+    idPedido:       document.getElementById('idPedido').value.trim(),
+    codigoTicket:   document.getElementById('codigoTicket').value.trim(),
+    descripcion:    document.getElementById('descripcion').value.trim(),
     fotoTicket:     ((document.getElementById('fotoTicket').files[0] || {}).name) || "",
-    extra:          document.getElementById('extra').value.trim(),
 
     // Metadatos para Make / Google Sheets
     test:      "chubbies-encuesta-v1",
@@ -1122,7 +1156,6 @@ function enviarFormulario() {
 
   enviarAlWebhook(datos); // fire & forget
 
-  // Mostrar pantalla final
   form.classList.add('hidden');
   document.querySelector('.progress').classList.add('hidden');
   thanksScreen.classList.remove('hidden');
@@ -1134,7 +1167,7 @@ form.addEventListener('submit', function (e) {
 });
 
 /* ============================================================
-   11) ESTADO INICIAL
+   12) ESTADO INICIAL
    ============================================================ */
 paintStars(0);
 optNo.classList.add('selected');
