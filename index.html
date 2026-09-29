@@ -11,761 +11,292 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
 <style>
-  /* ============================================================
-     TOKENS — Pika Style Reference
-     ============================================================ */
   :root{
-    --cream:        #ffedd2;
-    --void:         #0d0d0d;
-    --white:        #ffffff;
-    --hairline:     #e5e7eb;
-    --muted:        #9e9e9e;
-    --charcoal:     #1f1f1f;
-
-    --font-telka:      'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    --font-extended:   'Archivo Black', 'Inter', ui-sans-serif, system-ui, sans-serif;
-
-    --r-input:  6px;
-    --r-btn:    6px;
-    --r-card:   10px;
-
-    /* 👇 Imagen de fondo — cámbiala aquí si actualizas el diseño */
-    --cream-bg-image: url('https://i.ibb.co/6fFJ9sF/IMG-1876.png');
+    --cream:#ffedd2; --void:#0d0d0d; --white:#ffffff;
+    --hairline:#e5e7eb; --muted:#9e9e9e;
+    --font-telka:'Inter',ui-sans-serif,system-ui,sans-serif;
+    --font-ext:'Archivo Black','Inter',sans-serif;
+    --r-input:6px; --r-btn:6px;
+    --cream-bg-image:url('https://i.ibb.co/6fFJ9sF/IMG-1876.png');
   }
-
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{height:100%;}
   body{
     font-family:var(--font-telka);
-    font-weight:400;
-    font-size:16px;
-    line-height:1.5;
+    font-weight:400;font-size:16px;line-height:1.5;
     letter-spacing:-0.32px;
-    background:var(--void);
-    color:var(--void);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    -webkit-text-size-adjust:100%;
-    overflow-x:hidden;
+    background:var(--void);color:var(--white);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
   }
-  button, input, select, textarea{
-    font-family:inherit;
-    font-size:inherit;
-    letter-spacing:inherit;
-    color:inherit;
+  button,input,select,textarea{
+    font-family:inherit;font-size:inherit;letter-spacing:inherit;color:inherit;
   }
   .hidden{display:none !important;}
+  .sr-only{position:absolute !important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
 
-  .sr-only{
-    position:absolute !important;
-    width:1px;height:1px;
-    padding:0;margin:-1px;
-    overflow:hidden;
-    clip:rect(0 0 0 0);
-    clip-path:inset(50%);
-    white-space:nowrap;
-    border:0;
-  }
+  /* DIPTYCH */
+  .split{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;min-height:100dvh;width:100%;}
+  @media (max-width:900px){.split{grid-template-columns:1fr;min-height:auto;}}
 
-  /* ============================================================
-     DIPTYCH SPLIT
-     ============================================================ */
-  .split{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    min-height:100vh;
-    min-height:100dvh;
-    width:100%;
-  }
-  @media (max-width:900px){
-    .split{
-      grid-template-columns:1fr;
-      min-height:auto;
-    }
-  }
-
-  /* ============================================================
-     LEFT — CREAM PANEL
-     ============================================================ */
   .panel-cream{
-    position:relative;
-    overflow:hidden;
+    position:relative;overflow:hidden;
     background-color:var(--cream);
     background-image:var(--cream-bg-image);
-    background-size:cover;
-    background-position:center center;
-    background-repeat:no-repeat;
-    height:100vh;
-    height:100dvh;
-    width:100%;
+    background-size:cover;background-position:center center;background-repeat:no-repeat;
+    height:100vh;height:100dvh;width:100%;
   }
-  @media (min-width:901px){
-    .panel-cream{
-      position:sticky;
-      top:0;
-      height:100vh;
-      height:100dvh;
-    }
-  }
-  @media (max-width:900px){
-    .panel-cream{
-      /* Reducimos a la mitad de pantalla para que se vea el formulario */
-      height: 48vh; 
-      height: 48dvh;
-      min-height: 320px; /* Evita que se haga demasiado chico en pantallas muy bajas */
-    }
-  }
+  @media (min-width:901px){.panel-cream{position:sticky;top:0;height:100vh;height:100dvh;}}
+  @media (max-width:900px){.panel-cream{height:100vh;height:100dvh;min-height:0;}}
 
-  /* Contenido por encima, con altura 100% y overflow hidden */
   .panel-cream-inner{
-    position:relative;
-    z-index:1;
-    height:100%;
-    padding:40px 48px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    gap:20px;
-    overflow:hidden;
+    position:relative;z-index:1;height:100%;
+    padding:40px 48px;display:flex;flex-direction:column;
+    justify-content:space-between;gap:20px;overflow:hidden;
   }
-  @media (max-width:900px){
-    .panel-cream-inner{
-      padding:20px 22px;
-      gap:8px;
-      justify-content:center; /* Centramos el contenido verticalmente */
-    }
-    .cream-footer{
-      display:none; /* Ocultamos el footer en móvil para ahorrar espacio */
-    }
-  }
+  @media (max-width:900px){.panel-cream-inner{padding:26px 22px 28px;gap:14px;}}
 
-  /* ---------- BRAND ---------- */
-  .brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:14px;
-    font-weight:500;
-    letter-spacing:0.01em;
-    color:var(--void);
-  }
-  .brand-mark{
-    width:28px;height:28px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
-  }
-  .brand-name{
-    font-weight:600;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    font-size:12px;
-    color:var(--void);
-  }
+  .brand{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--void);}
+  .brand-mark{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;}
+  .brand-name{font-weight:600;letter-spacing:0.08em;text-transform:uppercase;font-size:12px;color:var(--void);}
 
-  /* ---------- CREAM CONTENT ---------- */
-  .cream-content{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding:16px 0;
-    min-height:0;
-  }
-
+  .cream-content{flex:1;display:flex;flex-direction:column;justify-content:center;padding:16px 0;min-height:0;}
   .display{
-    font-family:var(--font-extended);
-    font-weight:900;
-    font-size:clamp(36px, 4.4vw, 64px);
-    line-height:1.06;
-    letter-spacing:0.01em;
-    text-transform:uppercase;
-    color:var(--void);
-    margin:0 0 22px;
-    text-shadow:0 1px 2px rgba(255,237,210,0.55);
+    font-family:var(--font-ext);font-weight:900;
+    font-size:clamp(36px, 4.4vw, 64px);line-height:1.06;
+    letter-spacing:0.01em;text-transform:uppercase;color:var(--void);
+    margin:0 0 22px;text-shadow:0 1px 2px rgba(255,237,210,0.55);
   }
-  @media (max-width:900px){
-    .display{
-      font-size:clamp(26px, 7vw, 36px);
-      margin-bottom:8px;
-    }
-    .lead{
-      font-size:13px;
-    }
-  }
-
+  @media (max-width:900px){.display{font-size:clamp(30px, 8.5vw, 44px);margin-bottom:14px;}}
   .lead{
-    font-size:16px;
-    font-weight:400;
-    line-height:1.45;
-    letter-spacing:-0.32px;
-    color:var(--void);
-    max-width:38ch;
+    font-size:16px;font-weight:400;line-height:1.45;
+    letter-spacing:-0.32px;color:var(--void);max-width:38ch;
     text-shadow:0 1px 2px rgba(255,237,210,0.55);
   }
-  @media (max-width:900px){
-    .lead{
-      line-height:1.4;
-      max-width:32ch;
-    }
-  }
+  @media (max-width:900px){.lead{font-size:14px;line-height:1.4;max-width:32ch;}}
 
-  /* ---------- FOOTER ---------- */
   .cream-footer{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding-top:18px;
-    border-top:1px solid rgba(13,13,13,0.18);
-    font-size:12px;
-    font-weight:400;
-    line-height:1.4;
-    letter-spacing:-0.24px;
-    color:#7A6E66;
-    text-shadow:0 1px 2px rgba(255,237,210,0.5);
-    flex-shrink:0;
+    display:flex;justify-content:space-between;align-items:center;
+    padding-top:18px;border-top:1px solid rgba(13,13,13,0.18);
+    font-size:12px;color:#7A6E66;flex-shrink:0;
   }
-  @media (max-width:900px){
-    .cream-footer{
-      font-size:11px;
-      padding-top:14px;
-    }
-  }
-  .cream-footer .dot{
-    display:inline-block;
-    width:6px;height:6px;
-    border-radius:50%;
-    background:var(--void);
-    margin-right:8px;
-    vertical-align:1px;
-  }
+  .cream-footer .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--void);margin-right:8px;vertical-align:1px;}
 
-  /* ============================================================
-     RIGHT — VOID PANEL
-     ============================================================ */
+  /* VOID PANEL */
   .panel-void{
-    background:var(--void);
-    color:var(--white);
-    padding:64px 48px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:100vh;
-    min-height:100dvh;
-    width:100%;
+    background:var(--void);color:var(--white);
+    padding:64px 48px;display:flex;align-items:center;justify-content:center;
+    min-height:100vh;min-height:100dvh;width:100%;
   }
-  @media (max-width:900px){
-    .panel-void{
-      padding:40px 24px 56px;
-      align-items:flex-start;
-      min-height:auto;
-    }
-  }
+  @media (max-width:900px){.panel-void{padding:40px 24px 56px;align-items:flex-start;min-height:auto;}}
+  .void-inner{width:100%;max-width:440px;}
 
-  .void-inner{
-    width:100%;
-    max-width:440px;
-  }
+  /* PROGRESS */
+  .progress{display:flex;align-items:center;gap:12px;margin-bottom:36px;font-size:12px;color:var(--muted);}
+  .p-num{transition:color .25s ease;font-variant-numeric:tabular-nums;}
+  .p-num.active{color:var(--cream);font-weight:450;}
+  .p-num.done{color:var(--hairline);}
+  .p-line{flex:1;height:1px;background:rgba(229,231,235,0.18);}
 
-  /* ---------- PROGRESS ---------- */
-  .progress{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:44px;
-    font-size:12px;
-    font-weight:400;
-    letter-spacing:0.04em;
-    color:var(--muted);
-  }
-  .p-num{
-    transition:color .25s ease;
-    font-variant-numeric:tabular-nums;
-  }
-  .p-num.active{ color:var(--cream); font-weight:450; }
-  .p-num.done{ color:var(--hairline); }
-  .p-line{
-    flex:1;
-    height:1px;
-    background:rgba(229,231,235,0.18);
-  }
-
-  /* ============================================================
-     STEPS
-     ============================================================ */
-  .step{
-    display:none;
-    animation:fadeUp .38s ease both;
-  }
+  /* STEPS */
+  .step{display:none;animation:fadeUp .38s ease both;}
   .step.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
-  @keyframes fadeUp{
-    from{opacity:0;transform:translateY(10px);}
-    to{opacity:1;transform:translateY(0);}
-  }
+  .step-title{font-size:22px;font-weight:450;line-height:1.25;color:var(--white);margin:0 0 6px;}
+  .step-sub{font-size:14px;font-weight:300;line-height:1.43;color:var(--muted);margin:0 0 28px;}
 
-  .step-title{
-    font-size:22px;
-    font-weight:450;
-    line-height:1.25;
-    letter-spacing:-0.32px;
-    color:var(--white);
-    margin:0 0 6px;
-  }
-  .step-sub{
-    font-size:14px;
-    font-weight:300;
-    line-height:1.43;
-    letter-spacing:-0.28px;
-    color:var(--muted);
-    margin:0 0 32px;
-  }
+  /* FIELDS */
+  .field{margin-bottom:24px;}
+  .label{display:block;font-size:14px;font-weight:450;line-height:1.43;color:var(--white);margin:0 0 10px;}
+  .label-hint{display:block;font-size:12px;font-weight:300;color:var(--muted);margin-top:4px;}
 
-  /* ============================================================
-     FORM ELEMENTS
-     ============================================================ */
-  .field{margin-bottom:28px;}
-
-  .label{
-    display:block;
-    font-size:14px;
-    font-weight:450;
-    line-height:1.43;
-    letter-spacing:-0.28px;
-    color:var(--white);
-    margin:0 0 10px;
-  }
-  .label-hint{
-    display:block;
-    font-size:12px;
-    font-weight:300;
-    letter-spacing:-0.24px;
-    color:var(--muted);
-    margin-top:4px;
-  }
-
-  select,
-  input[type="text"],
-  input[type="tel"],
-  input[type="email"],
-  textarea{
-    width:100%;
-    padding:13px 14px;
-    background:transparent;
-    color:var(--white);
-    border:1px solid rgba(229,231,235,0.30);
-    border-radius:var(--r-input);
-    font-size:16px;
-    font-weight:300;
-    letter-spacing:-0.32px;
-    line-height:1.5;
+  select,input[type="text"],input[type="tel"],input[type="email"],textarea{
+    width:100%;padding:13px 14px;background:transparent;color:var(--white);
+    border:1px solid rgba(229,231,235,0.30);border-radius:var(--r-input);
+    font-size:16px;font-weight:300;line-height:1.5;
     transition:border-color .18s ease, background .18s ease;
   }
   select{
-    appearance:none;
-    -webkit-appearance:none;
+    appearance:none;-webkit-appearance:none;
     background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffedd2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;
-    background-position:right 14px center;
-    background-size:16px;
-    padding-right:42px;
-    cursor:pointer;
+    background-repeat:no-repeat;background-position:right 14px center;background-size:16px;
+    padding-right:42px;cursor:pointer;
   }
-  select option{ background:var(--void); color:var(--white); }
-  textarea{ resize:vertical; min-height:96px; }
-  select:focus,
-  input:focus,
-  textarea:focus{
-    outline:none;
-    border-color:var(--cream);
-  }
-  input::placeholder,
-  textarea::placeholder{ color:rgba(158,158,158,0.6); }
-  .invalid{ border-color:#ff6b6b !important; }
-  .err{
-    display:block;
-    margin-top:8px;
-    font-size:12px;
-    font-weight:400;
-    letter-spacing:-0.24px;
-    color:#ff8a8a;
-    line-height:1.5;
-  }
+  select option{background:var(--void);color:var(--white);}
+  textarea{resize:vertical;min-height:96px;}
+  select:focus,input:focus,textarea:focus{outline:none;border-color:var(--cream);}
+  input::placeholder,textarea::placeholder{color:rgba(158,158,158,0.6);}
+  .invalid{border-color:#ff6b6b !important;}
+  .err{display:block;margin-top:8px;font-size:12px;color:#ff8a8a;line-height:1.5;}
   .err:empty{display:none;}
 
-  .or-divider{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin:14px 0;
-    font-size:11px;
-    font-weight:400;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    color:var(--muted);
-  }
-  .or-divider::before,
-  .or-divider::after{
-    content:"";
-    flex:1;
-    height:1px;
-    background:rgba(229,231,235,0.18);
-  }
-
-  .combo-error{
-    display:block;
-    margin-top:10px;
-    padding:10px 12px;
-    background:rgba(255,107,107,0.10);
-    border-left:2px solid #ff6b6b;
-    border-radius:0 var(--r-input) var(--r-input) 0;
-    font-size:12px;
-    font-weight:400;
-    letter-spacing:-0.24px;
-    color:#ff9a9a;
-    line-height:1.5;
-  }
-  .combo-error:empty{display:none;}
-
-  /* ============================================================
-     STARS
-     ============================================================ */
-  .stars{
-    display:flex;
-    gap:4px;
-    user-select:none;
-    -webkit-tap-highlight-color:transparent;
-  }
+  /* STARS */
+  .stars{display:flex;gap:4px;user-select:none;-webkit-tap-highlight-color:transparent;}
   .star{
-    background:none;
-    border:0;
-    padding:0 2px;
-    cursor:pointer;
-    font-size:clamp(40px, 9vw, 50px);
-    line-height:1;
+    background:none;border:0;padding:0 2px;cursor:pointer;
+    font-size:clamp(40px, 9vw, 50px);line-height:1;
     color:rgba(229,231,235,0.18);
     transition:color .18s ease, transform .2s cubic-bezier(.34,1.56,.64,1);
-    -webkit-tap-highlight-color:transparent;
   }
-  .star.on{
-    color:var(--cream);
-    transform:scale(1.06);
-  }
+  .star.on{color:var(--cream);transform:scale(1.06);}
   .star:active{transform:scale(.92);}
-  .star:focus-visible{
-    outline:2px solid var(--cream);
-    outline-offset:4px;
-    border-radius:6px;
-  }
+  .star:focus-visible{outline:2px solid var(--cream);outline-offset:4px;border-radius:6px;}
 
   .warning{
-    margin-top:20px;
-    padding:12px 14px;
-    background:var(--cream);
-    color:var(--void);
-    border-radius:var(--r-input);
-    font-size:13px;
-    font-weight:450;
-    line-height:1.4;
-    letter-spacing:-0.26px;
+    margin-top:20px;padding:12px 14px;background:var(--cream);color:var(--void);
+    border-radius:var(--r-input);font-size:13px;font-weight:450;line-height:1.4;
     animation:fadeUp .28s ease both;
   }
 
-  /* ============================================================
-     CHIPS
-     ============================================================ */
-  .chips{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-  }
-  @media (max-width:520px){
-    .chips{grid-template-columns:1fr;}
-  }
-  .chip{
-    position:relative;
-    display:block;
-    cursor:pointer;
-  }
-  .chip input{
-    position:absolute;
-    opacity:0;
-    width:1px;height:1px;
-    pointer-events:none;
-  }
-  .chip span{
-    display:block;
-    padding:12px 14px;
-    font-size:14px;
-    font-weight:400;
-    letter-spacing:-0.28px;
-    line-height:1.3;
-    color:var(--white);
-    background:transparent;
-    border:1px solid rgba(229,231,235,0.30);
-    border-radius:var(--r-input);
-    transition:all .16s ease;
-  }
-  .chip input:checked + span{
-    background:var(--cream);
-    color:var(--void);
-    border-color:var(--cream);
-    font-weight:450;
-  }
-  .chip input:focus-visible + span{
-    outline:2px solid var(--cream);
-    outline-offset:2px;
-  }
-
-  .otro-wrap{
-    margin-top:12px;
-    padding-top:14px;
-    border-top:1px solid rgba(229,231,235,0.18);
-    animation:fadeUp .28s ease both;
-  }
-
-  /* ============================================================
-     OPTIONS
-     ============================================================ */
-  .options{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-  .option{
-    display:flex;
-    align-items:flex-start;
-    gap:14px;
-    padding:16px;
-    border:1px solid rgba(229,231,235,0.30);
-    border-radius:var(--r-input);
-    background:transparent;
-    cursor:pointer;
-    transition:all .16s ease;
-  }
-  .option input{
-    flex:0 0 auto;
-    width:18px;
-    height:18px;
-    margin-top:2px;
-    appearance:none;
-    -webkit-appearance:none;
-    border:1px solid rgba(229,231,235,0.5);
-    border-radius:50%;
-    background:transparent;
-    cursor:pointer;
-    position:relative;
-    transition:all .16s ease;
-  }
-  .option input:checked{
-    border-color:var(--cream);
-    background:var(--cream);
-  }
-  .option input:checked::after{
-    content:"";
-    position:absolute;
-    inset:4px;
-    border-radius:50%;
-    background:var(--void);
-  }
-  .option span{
-    font-size:14px;
-    font-weight:400;
-    letter-spacing:-0.28px;
-    line-height:1.43;
-    color:var(--white);
-  }
-  .option.selected{
-    border-color:var(--cream);
-    background:rgba(255,237,210,0.05);
-  }
-  .option.selected span{
-    color:var(--cream);
-    font-weight:450;
-  }
-
-  /* ============================================================
-     BUTTONS
-     ============================================================ */
-  .actions{
-    display:flex;
-    gap:10px;
-    margin-top:36px;
-  }
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    padding:14px 20px;
-    border-radius:var(--r-btn);
-    font-size:14px;
-    font-weight:450;
-    letter-spacing:-0.28px;
-    line-height:1.43;
-    border:0;
-    cursor:pointer;
-    transition:all .16s ease;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .btn-primary{
-    flex:1;
-    background:var(--cream);
-    color:var(--void);
-  }
-  .btn-primary:hover{ background:var(--white); }
-  .btn-primary:active{ transform:translateY(1px); }
-  .btn-ghost{
-    background:transparent;
-    color:var(--cream);
-    border:1px solid rgba(229,231,235,0.30);
-    padding:14px 18px;
-  }
-  .btn-ghost:hover{ border-color:var(--cream); }
-
-  /* ============================================================
-     FILE UPLOAD
-     ============================================================ */
-  .file-label{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    margin-top:10px;
-    padding:13px 14px;
-    border:1px dashed rgba(229,231,235,0.35);
-    border-radius:var(--r-input);
-    font-size:13px;
-    font-weight:400;
-    letter-spacing:-0.26px;
-    color:var(--muted);
-    cursor:pointer;
-    transition:all .16s ease;
+  /* GOOGLE CTA — siempre visible para TODOS */
+  .google-block{
+    margin:0 0 28px;padding:22px 20px;
+    background:rgba(255,237,210,0.06);
+    border:1px solid rgba(255,237,210,0.22);
+    border-radius:12px;
     text-align:center;
   }
-  .file-label:hover{
-    border-color:var(--cream);
-    color:var(--cream);
+  .google-block-title{
+    font-size:17px;font-weight:500;line-height:1.35;
+    color:var(--cream);margin:0 0 6px;
   }
-  .file-name{
-    margin-top:8px;
-    font-size:12px;
-    font-weight:400;
-    letter-spacing:-0.24px;
-    color:var(--cream);
-    word-break:break-word;
+  .google-block-sub{
+    font-size:13px;font-weight:300;line-height:1.5;
+    color:var(--muted);margin:0 0 16px;
   }
-  .req{
-    display:inline-block;
-    margin-left:6px;
-    padding:1px 6px;
-    border-radius:3px;
-    background:var(--cream);
-    color:var(--void);
-    font-size:9px;
-    font-weight:450;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    vertical-align:2px;
+  .btn-google{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;padding:16px 22px;
+    background:var(--cream);color:var(--void);
+    border:0;border-radius:var(--r-btn);
+    font-size:15px;font-weight:600;letter-spacing:-0.3px;
+    text-decoration:none;cursor:pointer;
+    transition:all .16s ease;
+    font-family:inherit;
   }
-  .opt-inline{
-    color:var(--muted);
-    font-weight:300;
-    font-size:12px;
-    letter-spacing:-0.24px;
-  }
+  .btn-google:hover{background:var(--white);transform:translateY(- CH1pxIPS);}
+  .btn-google:active{transform */
+:translateY(1px);}
+  .btn -google svg{width:18px;height: .18px;flex-shrink:0;}
 
-  /* ============================================================
-     THANK YOU
-     ============================================================ */
-  .thanks{
-    text-align:left;
-    animation:fadeUp .5s ease both;
+  /* DIVIDER "o" */
+  .orch-divider{
+    display:flex;align-items:center;ipsgap:12px;
+    margin:20px {0;font-size:11pxdisplay;font-weight:400;
+    letter-spacing:0.08em;:text-transform:uppercase;color:var(--muted);
   }
+  .or-dividergrid::before,.or-divider::after{content;:"";flex:1;height:1px;background:rgba(229,231,235,0.18);}
+
+  /*grid-template-columns:1fr 1fr;gap:8px;}
+  @media (max-width:520px){.chips{grid-template-columns:1fr;}}
+  .chip{position:relative;display:block;cursor:pointer;}
+  .chip input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none;}
+  .chip span{
+    display:block;padding:12px 14px;font-size:14px;font-weight:400;line-height:1.3;
+    color:var(--white);background:transparent;
+    border:1px solid rgba(229,231,235,0.30);border-radius:var(--r-input);
+    transition:all .16s ease;
+  }
+  .chip input:checked + span{background:var(--cream);color:var(--void);border-color:var(--cream);font-weight:450;}
+  .chip input:focus-visible + span{outline:2px solid var(--cream);outline-offset:2px;}
+
+  .otro-wrap{margin-top:12px;padding-top:14px;border-top:1px solid rgba(229,231,235,0.18);animation:fadeUp .28s ease both;}
+
+  /* OPTIONS */
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .option{
+    display:flex;align-items:flex-start;gap:14px;padding:16px;
+    border:1px solid rgba(229,231,235,0.30);border-radius:var(--r-input);
+    background:transparent;cursor:pointer;transition:all .16s ease;
+  }
+  .option input{
+    flex:0 0 auto;width:18px;height:18px;margin-top:2px;
+    appearance:none;-webkit-appearance:none;
+    border:1px solid rgba(229,231,235,0.5);border-radius:50%;
+    background:transparent;cursor:pointer;position:relative;transition:all .16s ease;
+  }
+  .option input:checked{border-color:var(--cream);background:var(--cream);}
+  .option input:checked::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--void);}
+  .option span{font-size:14px;font-weight:400;line-height:1.43;color:var(--white);}
+  .option.selected{border-color:var(--cream);background:rgba(255,237,210,0.05);}
+  .option.selected span{color:var(--cream);font-weight:450;}
+
+  /* BUTTONS */
+  .actions{display:flex;gap:10px;margin-top:28px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:14px 20px;border-radius:var(--r-btn);
+    font-size:14px;font-weight:450;line-height:1.43;
+    border:0;cursor:pointer;transition:all .16s ease;
+    font-family:inherit;
+  }
+  .btn-primary{flex:1;background:var(--cream);color:var(--void);}
+  .btn-primary:hover{background:var(--white);}
+  .btn-primary:active{transform:translateY(1px);}
+  .btn-ghost{background:transparent;color:var(--cream);border:1px solid rgba(229,231,235,0.30);padding:14px 18px;}
+  .btn-ghost:hover{border-color:var(--cream);}
+
+  /* FILE */
+  .file-label{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    margin-top:10px;padding:13px 14px;
+    border:1px dashed rgba(229,231,235,0.35);border-radius:var(--r-input);
+    font-size:13px;color:var(--muted);cursor:pointer;
+    transition:all .16s ease;text-align:center;
+  }
+  .file-label:hover{border-color:var(--cream);color:var(--cream);}
+  .file-name{margin-top:8px;font-size:12px;color:var(--cream);word-break:break-word;}
+  .req{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:3px;background:var(--cream);color:var(--void);font-size:9px;font-weight:450;letter-spacing:0.06em;text-transform:uppercase;vertical-align:2px;}
+  .opt-inline{color:var(--muted);font-weight:300;font-size:12px;}
+
+  /* THANKS */
+  .thanks{text-align:left;animation:fadeUp .5s ease both;}
   .thanks-mark{
-    width:56px;height:56px;
-    border-radius:50%;
-    background:var(--cream);
-    color:var(--void);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:26px;
-    font-weight:450;
-    margin-bottom:28px;
-    animation:pop .5s cubic-bezier(.34,1.56,.64,1) both;
+    width:56px;height:56px;border-radius:50%;background:var(--cream);color:var(--void);
+    display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:450;
+    margin-bottom:24px;animation:pop .5s cubic-bezier(.34,1.56,.64,1) both;
   }
-  @keyframes pop{
-    0%{transform:scale(0.6);opacity:0;}
-    100%{transform:scale(1);opacity:1;}
-  }
-  .thanks h2{
-    font-size:24px;
-    font-weight:450;
-    line-height:1.25;
-    letter-spacing:-0.32px;
-    color:var(--white);
-    margin:0 0 14px;
-  }
-  .thanks p{
-    font-size:16px;
-    font-weight:300;
-    letter-spacing:-0.32px;
-    line-height:1.5;
-    color:var(--muted);
-    max-width:36ch;
-  }
+  @keyframes pop{0%{transform:scale(0.6);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  .thanks h2{font-size:24px;font-weight:450;line-height:1.25;color:var(--white);margin:0 0 12px;}
+  .thanks p{font-size:15px;font-weight:300;line-height:1.5;color:var(--muted);max-width:38ch;margin:0 0 24px;}
 
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none !important;transition:none !important;}
-  }
+  @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;}}
 </style>
 </head>
 <body>
 
 <div class="split">
 
-  <!-- ===================== LEFT — CREAM PANEL ===================== -->
-  <aside class="panel-cream" aria-label="Chubbies Burger · Encuesta de satisfacción">
-
-    <!-- Texto por encima del fondo -->
+  <!-- LEFT — PANEL CREMA -->
+  <aside class="panel-cream">
     <div class="panel-cream-inner">
-
       <header class="brand">
         <span class="brand-mark" aria-hidden="true">🍔</span>
         <span class="brand-name">Chubbies Burger</span>
       </header>
-
       <div class="cream-content">
         <h1 class="display">¿Cómo<br>estuvo<br>tu pedido?</h1>
         <p class="lead">Tu opinión nos ayuda a mejorar la experiencia Chubbies Burger.</p>
       </div>
-
       <footer class="cream-footer">
         <span><span class="dot" aria-hidden="true"></span>Encuesta de satisfacción</span>
         <span>© 2026</span>
       </footer>
-
     </div>
-
   </aside>
 
-  <!-- ===================== RIGHT — VOID PANEL ===================== -->
+  <!-- RIGHT — PANEL NEGRO -->
   <section class="panel-void">
     <div class="void-inner">
 
-      <!-- ---------- PROGRESS ---------- -->
       <nav class="progress" aria-label="Progreso">
         <span class="p-num active" data-step="1">01</span>
-        <span class="p-line" aria-hidden="true"></span>
+        <span class="p-line"></span>
         <span class="p-num" data-step="2">02</span>
-        <span class="p-line" aria-hidden="true"></span>
+        <span class="p-line"></span>
         <span class="p-num" data-step="3">03</span>
-        <span class="p-line" aria-hidden="true"></span>
-        <span class="p-num" data-step="4">04</span>
       </nav>
 
-      <!-- ---------- FORM WIZARD ---------- -->
       <form id="surveyForm" novalidate>
 
         <!-- STEP 1 -->
@@ -782,152 +313,115 @@
 
           <div class="field" style="margin-bottom:0;">
             <span class="label">¿Cómo calificarías tu experiencia?</span>
-            <div class="stars" id="starRow" role="radiogroup" aria-label="Calificación de 1 a 5 estrellas">
-              <button type="button" class="star" data-value="1" role="radio" aria-checked="false" aria-label="1 estrella">★</button>
-              <button type="button" class="star" data-value="2" role="radio" aria-checked="false" aria-label="2 estrellas">★</button>
-              <button type="button" class="star" data-value="3" role="radio" aria-checked="false" aria-label="3 estrellas">★</button>
-              <button type="button" class="star" data-value="4" role="radio" aria-checked="false" aria-label="4 estrellas">★</button>
-              <button type="button" class="star" data-value="5" role="radio" aria-checked="false" aria-label="5 estrellas">★</button>
+            <div class="stars" id="starRow" role="radiogroup" aria-label="Calificación">
+              <button type="button" class="star" data-value="1" aria-label="1 estrella">★</button>
+              <button type="button" class="star" data-value="2" aria-label="2 estrellas">★</button>
+              <button type="button" class="star" data-value="3" aria-label="3 estrellas">★</button>
+              <button type="button" class="star" data-value="4" aria-label="4 estrellas">★</button>
+              <button type="button" class="star" data-value="5" aria-label="5 estrellas">★</button>
             </div>
-
             <p class="warning hidden" id="branchWarning" role="alert">
-              Por favor selecciona primero la sucursal donde realizaste tu pedido.
+              Por favor selecciona primero la sucursal.
             </p>
           </div>
         </section>
 
-        <!-- STEP 2 -->
+        <!-- STEP 2 — GOOGLE CTA UNIVERSAL + FORM CONTEXTUAL -->
         <section class="step" data-step="2">
-          <h2 class="step-title">¿Qué podemos mejorar?</h2>
-          <p class="step-sub" id="ratingEcho">Selecciona todos los aspectos que apliquen.</p>
+          <h2 class="step-title" id="step2Title">¡Gracias por tu calificación!</h2>
+          <p class="step-sub" id="step2Sub">Nos encantaría saber más sobre tu experiencia.</p>
 
-          <div class="field">
-            <span class="label">Aspectos a mejorar <span class="opt-inline">(opcional, varios)</span></span>
-            <div class="chips">
-              <label class="chip"><input type="checkbox" name="aspectos" value="Calidad de la comida"><span>Calidad de la comida</span></label>
-              <label class="chip"><input type="checkbox" name="aspectos" value="Sabor de los alimentos"><span>Sabor de los alimentos</span></label>
-              <label class="chip"><input type="checkbox" name="aspectos" value="Temperatura del pedido"><span>Temperatura del pedido</span></label>
-              <label class="chip"><input type="checkbox" name="aspectos" value="Tiempo de preparación"><span>Tiempo de preparación</span></label>
-              <label class="chip"><input type="checkbox" name="aspectos" value="Tiempo de entrega"><span>Tiempo de entrega</span></label>
-              <label class="chip"><input type="checkbox" name="aspectos" value="Presentación del pedido"><span>Presentación del pedido</span></label>
-              <label class="chip"><input type="checkbox" name="aspectos" value="Empaque"><span>Empaque</span></label>
-              <label class="chip"><input type="checkbox" name="aspectos" value="Atención al cliente"><span>Atención al cliente</span></label>
-              <label class="chip"><input type="checkbox" name="aspectos" value="Relación calidad-precio"><span>Relación calidad-precio</span></label>
-              <label class="chip"><input type="checkbox" id="chkOtro" name="aspectos" value="Otro"><span>Otro</span></label>
-            </div>
-
-            <div class="otro-wrap hidden" id="otroWrap">
-              <label class="label" for="otroDetalle">¿Qué otro aspecto quieres mencionar? <span class="req">Obligatorio</span></label>
-              <input type="text" id="otroDetalle" name="otroDetalle" placeholder="Ej. estacionamiento, música, limpieza del local…">
-              <span class="err" id="err-otroDetalle"></span>
-            </div>
+          <!-- BLOQUE GOOGLE (SIEMPRE VISIBLE PARA TODOS) -->
+          <div class="google-block">
+            <p class="google-block-title">Comparte tu experiencia en Google</p>
+            <p class="google-block-sub">Tu reseña ayuda a otros a descubrirnos. Toma 30 segundos.</p>
+            <a class="btn-google" id="googleBtn1" href="#" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              Dejar reseña en Google
+            </a>
           </div>
 
-          <div class="field">
-            <label class="label" for="comentario">Cuéntanos un poco más <span class="opt-inline">(opcional)</span></label>
-            <textarea id="comentario" name="comentario" rows="4"
-                      placeholder="Escríbenos lo que quieras…"></textarea>
-          </div>
+          <div class="or-divider"><span>o</span></div>
 
-          <div class="actions">
-            <button type="button" class="btn btn-ghost" data-back="1">Atrás</button>
-            <button type="button" class="btn btn-primary" data-next="3">Continuar</button>
+          <!-- FORM CONTEXTUAL — 1-3★ vs 4-5★ -->
+          <div id="formContext">
+            <!-- Aquí se inyecta dinámicamente según estrellas -->
           </div>
         </section>
 
-        <!-- STEP 3 -->
+        <!-- STEP 3 — DATOS DE CONTACTO (solo si pidió atención personalizada) -->
         <section class="step" data-step="3">
-          <h2 class="step-title">¿Quieres que te contactemos?</h2>
-          <p class="step-sub">Si prefieres, nuestro equipo de atención puede escribirte para ayudarte.</p>
-
-          <div class="options" style="margin-bottom:0;">
-            <label class="option" id="optSi">
-              <input type="radio" name="contacto" value="si">
-              <span>Sí, quiero atención personalizada.</span>
-            </label>
-            <label class="option selected" id="optNo">
-              <input type="radio" name="contacto" value="no" checked>
-              <span>No, solo quería dejar mi comentario.</span>
-            </label>
-          </div>
-
-          <div class="actions">
-            <button type="button" class="btn btn-ghost" data-back="2">Atrás</button>
-            <button type="button" class="btn btn-primary" id="step3Next">Enviar feedback</button>
-          </div>
-        </section>
-
-        <!-- STEP 4 -->
-        <section class="step" data-step="4">
           <h2 class="step-title">Déjanos tus datos</h2>
-          <p class="step-sub">Todos los campos son obligatorios, salvo la foto del ticket. En la sección del ticket puedes llenar <strong style="color:var(--cream);font-weight:450;">cualquiera de los dos</strong> (ID de pedido o código de ticket).</p>
+          <p class="step-sub">Nos pondremos en contacto contigo a la brevedad.</p>
 
           <div class="field">
             <label class="label" for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Tu nombre completo">
+            <input type="text" id="nombre" placeholder="Tu nombre completo">
             <span class="err" id="err-nombre"></span>
           </div>
 
           <div class="field">
             <label class="label" for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" name="telefono" inputmode="tel" autocomplete="tel" placeholder="10 dígitos">
+            <input type="tel" id="telefono" inputmode="tel" placeholder="10 dígitos">
             <span class="err" id="err-telefono"></span>
           </div>
 
           <div class="field">
-            <label class="label" for="correo">Correo electrónico</label>
-            <input type="email" id="correo" name="correo" inputmode="email" autocomplete="email" placeholder="tucorreo@ejemplo.com">
+            <label class="label" for="correo">Correo electrónico <span class="opt-inline">(opcional)</span></label>
+            <input type="email" id="correo" inputmode="email" placeholder="tucorreo@ejemplo.com">
             <span class="err" id="err-correo"></span>
           </div>
 
           <div class="field">
             <label class="label">Identifica tu pedido <span class="req">Llena al menos uno</span></label>
-            <span class="label-hint">Puedes usar el ID de pedido, el código de ticket, o ambos si los tienes a mano.</span>
-
+            <span class="label-hint">ID de pedido o código de ticket.</span>
             <div style="margin-top:12px;">
-              <label class="label" for="idPedido" style="font-weight:400;font-size:13px;color:var(--muted);">ID de pedido <span class="opt-inline">(opcional)</span></label>
-              <input type="text" id="idPedido" name="idPedido" inputmode="numeric" placeholder="Ej. 808105935018">
+              <label class="label" for="idPedido" style="font-weight:400;font-size:13px;color:var(--muted);">ID de pedido</label>
+              <input type="text" id="idPedido" inputmode="numeric" placeholder="Ej. 808105935018">
               <span class="err" id="err-idPedido"></span>
             </div>
-
-            <div class="or-divider" aria-hidden="true"><span>o</span></div>
-
+            <div class="or-divider"><span>o</span></div>
             <div>
-              <label class="label" for="codigoTicket" style="font-weight:400;font-size:13px;color:var(--muted);">Código de ticket <span class="opt-inline">(opcional)</span></label>
-              <input type="text" id="codigoTicket" name="codigoTicket" placeholder="Ej. 3080MUJ9MCT2">
+              <label class="label" for="codigoTicket" style="font-weight:400;font-size:13px;color:var(--muted);">Código de ticket</label>
+              <input type="text" id="codigoTicket" placeholder="Ej. 3080MUJ9MCT2">
               <span class="err" id="err-codigoTicket"></span>
             </div>
-
-            <span class="combo-error" id="err-combo"></span>
+            <span class="err" id="err-combo"></span>
           </div>
 
           <div class="field">
             <label class="file-label" for="fotoTicket">📷 Adjuntar foto del ticket <span class="opt-inline">(opcional)</span></label>
-            <input type="file" id="fotoTicket" name="fotoTicket" accept="image/*" class="sr-only">
+            <input type="file" id="fotoTicket" accept="image/*" class="sr-only">
             <p class="file-name" id="fileName"></p>
           </div>
 
-          <div class="field">
-            <label class="label" for="descripcion">Describe lo que sucedió con tu pedido <span class="req">Obligatorio</span></label>
-            <span class="label-hint">Cuéntanos con el mayor detalle posible: qué pediste, qué pasó y en qué momento lo notaste. Mientras más nos cuentes, mejor podremos ayudarte.</span>
-            <textarea id="descripcion" name="descripcion" rows="5" style="margin-top:10px;"
-                      placeholder="Ej. Pedí una hamburguesa doble con papas a las 8:30 pm. Llegó 40 minutos tarde, las papas estaban frías y faltaba uno de los refrescos…"></textarea>
-            <span class="err" id="err-descripcion"></span>
-          </div>
-
           <div class="actions">
-            <button type="button" class="btn btn-ghost" data-back="3">Atrás</button>
-            <button type="submit" class="btn btn-primary">Enviar feedback</button>
+            <button type="button" class="btn btn-ghost" data-back="2">Atrás</button>
+            <button type="submit" class="btn btn-primary">Enviar</button>
           </div>
         </section>
 
       </form>
 
-      <!-- THANK YOU -->
+      <!-- THANKS -->
       <section id="thanksScreen" class="thanks hidden">
         <div class="thanks-mark" aria-hidden="true">✓</div>
-        <h2>¡Gracias por compartir tu experiencia!</h2>
-        <p>Tu opinión es muy importante para nosotros y nos ayuda a mejorar Chubbies Burger.</p>
+        <h2>¡Gracias por compartirnos tu experiencia!</h2>
+        <p id="thanksMsg">Tu opinión nos ayuda a ser mejores cada día.</p>
+
+        <!-- SEGUNDO BLOQUE GOOGLE — refuerzo en pantalla final -->
+        <div class="google-block" style="margin-top:28px;">
+          <p class="google-block-title">¿Nos regalas una reseña en Google?</p>
+          <p class="google-block-sub">Es la mejor forma de apoyarnos.</p>
+          <a class="btn-google" id="googleBtn2" href="#" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            Dejar reseña en Google
+          </a>
+        </div>
       </section>
 
     </div>
@@ -937,13 +431,12 @@
 
 <script>
 /* ============================================================
-   0) WEBHOOK DE MAKE.COM
-   👉  REEMPLAZA ESTA URL por la de tu Custom Webhook de Make.com
+   WEBHOOK MAKE.COM
    ============================================================ */
-const WEBHOOK_URL = "https://hook.us2.make.com/pwrtklvvbxmnautgcsoueq13jdhqttmq";
+const WEBHOOK_URL = "https://hook.us1.make.com/REEMPLAZA_ESTO_POR_TU_WEBHOOK";
 
 /* ============================================================
-   1) SUCURSALES + URLs REALES DE GOOGLE REVIEWS
+   SUCURSALES — URLs REALES DE GOOGLE REVIEWS
    ============================================================ */
 const sucursales = {
   "Estadio Harp Helú":   "https://search.google.com/local/writereview?placeid=ChIJ1-YkORj90YURKCZg5N0eDQw",
@@ -964,42 +457,34 @@ const sucursales = {
 };
 
 /* ============================================================
-   2) REFERENCIAS DEL DOM
+   DOM
    ============================================================ */
 const form          = document.getElementById('surveyForm');
 const selectSuc     = document.getElementById('sucursal');
 const starRow       = document.getElementById('starRow');
 const stars         = Array.from(starRow.querySelectorAll('.star'));
 const branchWarning = document.getElementById('branchWarning');
-const ratingEcho    = document.getElementById('ratingEcho');
-const step3Next     = document.getElementById('step3Next');
-const optSi         = document.getElementById('optSi');
-const optNo         = document.getElementById('optNo');
+const step2Title    = document.getElementById('step2Title');
+const step2Sub      = document.getElementById('step2Sub');
+const formContext   = document.getElementById('formContext');
+const googleBtn1    = document.getElementById('googleBtn1');
+const googleBtn2    = document.getElementById('googleBtn2');
 const thanksScreen  = document.getElementById('thanksScreen');
-const fileName      = document.getElementById('fileName');
+const thanksMsg     = document.getElementById('thanksMsg');
 const progressNums  = document.querySelectorAll('.p-num');
-const chkOtro       = document.getElementById('chkOtro');
-const otroWrap      = document.getElementById('otroWrap');
-const otroDetalle   = document.getElementById('otroDetalle');
-const idPedido      = document.getElementById('idPedido');
-const codigoTicket  = document.getElementById('codigoTicket');
-const comboError    = document.getElementById('err-combo');
+const fileName      = document.getElementById('fileName');
 
 let rating = 0;
+let quiereContacto = false;
 
-/* ============================================================
-   3) SELECTOR DE SUCURSALES
-   ============================================================ */
-Object.keys(sucursales).forEach(function (nombre) {
-  const opt = document.createElement('option');
-  opt.value = nombre;
-  opt.textContent = nombre;
-  selectSuc.appendChild(opt);
+/* Cargar sucursales */
+Object.keys(sucursales).forEach(function (n) {
+  const o = document.createElement('option');
+  o.value = n; o.textContent = n;
+  selectSuc.appendChild(o);
 });
 
-/* ============================================================
-   4) WIZARD
-   ============================================================ */
+/* Navegación */
 function goToStep(n) {
   document.querySelectorAll('.step').forEach(function (s) {
     s.classList.toggle('active', Number(s.dataset.step) === Number(n));
@@ -1014,58 +499,40 @@ function goToStep(n) {
   }
 }
 
-document.querySelectorAll('[data-next]').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    if (btn.dataset.next === '3' && !validarPaso2()) return;
-    goToStep(Number(btn.dataset.next));
-  });
-});
-document.querySelectorAll('[data-back]').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    goToStep(Number(btn.dataset.back));
-  });
-});
-
-/* ============================================================
-   5) ESTRELLAS
-   ============================================================ */
+/* Estrellas */
 function paintStars(n) {
-  stars.forEach(function (star, i) {
-    const on = i < n;
-    star.classList.toggle('on', on);
-    star.setAttribute('aria-checked', (on && i === n - 1) ? 'true' : 'false');
+  stars.forEach(function (s, i) {
+    s.classList.toggle('on', i < n);
+    s.setAttribute('aria-checked', (i === n - 1) ? 'true' : 'false');
   });
 }
-stars.forEach(function (star, i) {
-  star.addEventListener('mouseenter', function () { paintStars(i + 1); });
-  star.addEventListener('focus',      function () { paintStars(i + 1); });
-  star.addEventListener('click',      function () { handleRating(i + 1); });
+stars.forEach(function (s, i) {
+  s.addEventListener('mouseenter', function () { paintStars(i + 1); });
+  s.addEventListener('focus',      function () { paintStars(i + 1); });
+  s.addEventListener('click',      function () { handleRating(i + 1); });
 });
 starRow.addEventListener('mouseleave', function () { paintStars(rating); });
 
 function handleRating(value) {
-  const sucursalElegida = selectSuc.value;
-
-  if (!sucursalElegida) {
+  if (!selectSuc.value) {
     rating = 0;
     paintStars(0);
     branchWarning.classList.remove('hidden');
     selectSuc.focus();
     return;
   }
-
   branchWarning.classList.add('hidden');
-
-  if (value === 5) {
-    rating = 5;
-    paintStars(5);
-    window.location.href = sucursales[sucursalElegida];
-    return;
-  }
-
   rating = value;
   paintStars(value);
-  ratingEcho.textContent = 'Calificaste con ' + value + ' de 5 estrellas. Cuéntanos qué podemos mejorar.';
+
+  // Configurar URL de Google para TODOS (sin excepción)
+  const urlGoogle = sucursales[selectSuc.value];
+  googleBtn1.href = urlGoogle;
+  googleBtn2.href = urlGoogle;
+
+  // Inyectar form contextual según estrellas
+  renderContext(value);
+
   goToStep(2);
 }
 
@@ -1074,236 +541,262 @@ selectSuc.addEventListener('change', function () {
 });
 
 /* ============================================================
-   6) "OTRO"
+   FORM CONTEXTUAL SEGÚN ESTRELLAS
+   - 4-5★: mensaje positivo + comentario opcional
+   - 1-3★: mensaje empático + opciones de mejora + Sí/No atención
    ============================================================ */
-chkOtro.addEventListener('change', function () {
-  if (chkOtro.checked) {
-    otroWrap.classList.remove('hidden');
-    setTimeout(function () { otroDetalle.focus({ preventScroll: true }); }, 100);
-  } else {
-    otroWrap.classList.add('hidden');
-    otroDetalle.value = '';
-    setError(otroDetalle, '');
+function renderContext(value) {
+  if (value >= 4) {
+    step2Title.textContent = '¡Qué bueno que te gustó!';
+    step2Sub.textContent = 'Si quieres contarnos algo más, te leemos.';
+
+    formContext.innerHTML = `
+      <div class="field">
+        <label class="label" for="comentario">¿Algo que te haya encantado? <span class="opt-inline">(opcional)</span></label>
+        <textarea id="comentario" rows="3" placeholder="Ej. La hamburguesa Chubbies estaba espectacular…"></textarea>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" data-back="1">Atrás</button>
+        <button type="button" class="btn btn-primary" id="btnEnviarPositivo">Enviar comentario</button>
+      </div>
+    `;
+
+    document.getElementById('btnEnviarPositivo').addEventListener('click', function () {
+      quiereContacto = false;
+      enviarFormulario();
+    });
+    document.querySelectorAll('[data-back="1"]').forEach(b =>
+      b.addEventListener('click', () => goToStep(1))
+    );
+    return;
   }
-});
 
-/* ============================================================
-   7) CONTACTO
-   ============================================================ */
-document.querySelectorAll('input[name="contacto"]').forEach(function (radio) {
-  radio.addEventListener('change', function () {
-    optSi.classList.toggle('selected', optSi.querySelector('input').checked);
-    optNo.classList.toggle('selected', optNo.querySelector('input').checked);
+  // 1-3★
+  step2Title.textContent = 'Lamentamos que no haya sido perfecto';
+  step2Sub.textContent = 'Cuéntanos qué pasó para poder mejorar.';
 
-    const esSi = document.querySelector('input[name="contacto"]:checked').value === 'si';
-    step3Next.textContent = esSi ? 'Continuar' : 'Enviar feedback';
+  formContext.innerHTML = `
+    <div class="field">
+      <span class="label">¿Qué podemos mejorar? <span class="opt-inline">(varios)</span></span>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" name="aspectos" value="Calidad de la comida"><span>Calidad de la comida</span></label>
+        <label class="chip"><input type="checkbox" name="aspectos" value="Sabor de los alimentos"><span>Sabor de los alimentos</span></label>
+        <label class="chip"><input type="checkbox" name="aspectos" value="Temperatura del pedido"><span>Temperatura del pedido</span></label>
+        <label class="chip"><input type="checkbox" name="aspectos" value="Tiempo de preparación"><span>Tiempo de preparación</span></label>
+        <label class="chip"><input type="checkbox" name="aspectos" value="Tiempo de entrega"><span>Tiempo de entrega</span></label>
+        <label class="chip"><input type="checkbox" name="aspectos" value="Presentación del pedido"><span>Presentación</span></label>
+        <label class="chip"><input type="checkbox" name="aspectos" value="Empaque"><span>Empaque</span></label>
+        <label class="chip"><input type="checkbox" name="aspectos" value="Atención al cliente"><span>Atención al cliente</span></label>
+        <label class="chip"><input type="checkbox" name="aspectos" value="Relación calidad-precio"><span>Calidad-precio</span></label>
+        <label class="chip"><input type="checkbox" id="chkOtro" name="aspectos" value="Otro"><span>Otro</span></label>
+      </div>
+      <div class="otro-wrap hidden" id="otroWrap">
+        <label class="label" for="otroDetalle">¿Qué otro aspecto? <span class="req">Obligatorio</span></label>
+        <input type="text" id="otroDetalle" placeholder="Ej. estacionamiento, música…">
+        <span class="err" id="err-otroDetalle"></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label" for="descripcion">Cuéntanos qué pasó <span class="req">Obligatorio</span></label>
+      <span class="label-hint">Con detalle: qué pediste, qué pasó, en qué momento lo notaste.</span>
+      <textarea id="descripcion" rows="4" style="margin-top:10px;" placeholder="Ej. Pedí una hamburguesa doble y llegó 40 minutos tarde, las papas frías…"></textarea>
+      <span class="err" id="err-descripcion"></span>
+    </div>
+
+    <div class="field">
+      <span class="label">¿Quieres que te contactemos?</span>
+      <div class="options">
+        <label class="option" id="optSi">
+          <input type="radio" name="contacto" value="si">
+          <span>Sí, quiero atención personalizada.</span>
+        </label>
+        <label class="option selected" id="optNo">
+          <input type="radio" name="contacto" value="no" checked>
+          <span>No, solo quería dejar mi comentario.</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-ghost" data-back="1">Atrás</button>
+      <button type="button" class="btn btn-primary" id="btnContinuar">Continuar</button>
+    </div>
+  `;
+
+  // Lógica de "Otro"
+  const chkOtro = document.getElementById('chkOtro');
+  const otroWrap = document.getElementById('otroWrap');
+  const otroDetalle = document.getElementById('otroDetalle');
+  chkOtro.addEventListener('change', function () {
+    otroWrap.classList.toggle('hidden', !chkOtro.checked);
+    if (chkOtro.checked) setTimeout(() => otroDetalle.focus({ preventScroll: true }), 100);
+    else otroDetalle.value = '';
   });
-});
 
-step3Next.addEventListener('click', function () {
-  const esSi = document.querySelector('input[name="contacto"]:checked').value === 'si';
-  if (esSi) {
-    goToStep(4);
-  } else {
-    enviarFormulario();
-  }
-});
-
-/* ============================================================
-   8) FOTO DEL TICKET
-   ============================================================ */
-document.getElementById('fotoTicket').addEventListener('change', function (e) {
-  const archivo = e.target.files && e.target.files[0];
-  fileName.textContent = archivo ? '✔ ' + archivo.name : '';
-});
-
-/* ============================================================
-   9) VALIDACIÓN
-   ============================================================ */
-function setError(input, mensaje) {
-  const box = document.getElementById('err-' + input.id);
-  if (box) box.textContent = mensaje || '';
-  input.classList.toggle('invalid', !!mensaje);
-}
-function clearAllErrors() {
-  ['nombre', 'telefono', 'correo', 'idPedido', 'codigoTicket', 'descripcion', 'otroDetalle'].forEach(function (id) {
-    const input = document.getElementById(id);
-    if (input) setError(input, '');
+  // Selección Sí/No
+  document.querySelectorAll('input[name="contacto"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      document.getElementById('optSi').classList.toggle('selected', document.querySelector('input[name="contacto"]:checked').value === 'si');
+      document.getElementById('optNo').classList.toggle('selected', document.querySelector('input[name="contacto"]:checked').value === 'no');
+    });
   });
-  if (comboError) comboError.textContent = '';
-}
-['nombre', 'telefono', 'correo', 'idPedido', 'codigoTicket', 'descripcion', 'otroDetalle'].forEach(function (id) {
-  const input = document.getElementById(id);
-  if (!input) return;
-  input.addEventListener('input', function () {
-    setError(input, '');
-    if (id === 'idPedido' || id === 'codigoTicket') {
-      if (comboError) comboError.textContent = '';
+
+  // Botón Continuar
+  document.getElementById('btnContinuar').addEventListener('click', function () {
+    // Validar "Otro"
+    if (chkOtro.checked && !otroDetalle.value.trim()) {
+      setError(otroDetalle, 'Cuéntanos qué otro aspecto.');
+      otroDetalle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    // Validar descripción
+    const desc = document.getElementById('descripcion');
+    if (!desc.value.trim() || desc.value.trim().length < 15) {
+      setError(desc, 'Añade un poco más de detalle (mínimo 15 caracteres).');
+      desc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    quiereContacto = document.querySelector('input[name="contacto"]:checked').value === 'si';
+    if (quiereContacto) {
+      goToStep(3);
+    } else {
+      enviarFormulario();
     }
   });
-});
 
-function validarPaso2() {
-  if (chkOtro.checked && !otroDetalle.value.trim()) {
-    setError(otroDetalle, 'Cuéntanos qué otro aspecto quieres mencionar.');
-    otroDetalle.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(function () { otroDetalle.focus({ preventScroll: true }); }, 250);
-    return false;
-  }
-  return true;
+  document.querySelectorAll('[data-back="1"]').forEach(b =>
+    b.addEventListener('click', () => goToStep(1))
+  );
 }
 
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function setError(input, msg) {
+  let box = document.getElementById('err-' + input.id);
+  if (box) box.textContent = msg || '';
+  input.classList.toggle('invalid', !!msg);
+}
+function clearAllErrors() {
+  ['nombre','telefono','correo','idPedido','codigoTicket','descripcion','otroDetalle'].forEach(function (id) {
+    const el = document.getElementById(id);
+    if (el) setError(el, '');
+  });
+  const combo = document.getElementById('err-combo');
+  if (combo) combo.textContent = '';
+}
+
+/* Validación step 3 */
 function validarContacto() {
   clearAllErrors();
-  let valido = true;
+  let ok = true;
   let primerError = null;
 
   const nombre = document.getElementById('nombre');
-  if (!nombre.value.trim()) {
-    setError(nombre, 'Por favor escribe tu nombre.');
-    valido = false; primerError = primerError || nombre;
-  }
+  if (!nombre.value.trim()) { setError(nombre, 'Escribe tu nombre.'); ok = false; primerError = primerError || nombre; }
 
-  const telefono = document.getElementById('telefono');
-  const digitos = telefono.value.replace(/\D/g, '');
-  if (!telefono.value.trim()) {
-    setError(telefono, 'Por favor escribe tu teléfono.');
-    valido = false; primerError = primerError || telefono;
-  } else if (digitos.length < 10) {
-    setError(telefono, 'Ingresa un teléfono de al menos 10 dígitos.');
-    valido = false; primerError = primerError || telefono;
+  const tel = document.getElementById('telefono');
+  if (!tel.value.trim() || tel.value.replace(/\D/g, '').length < 10) {
+    setError(tel, 'Teléfono de 10 dígitos.'); ok = false; primerError = primerError || tel;
   }
 
   const correo = document.getElementById('correo');
-  const reCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  if (!correo.value.trim()) {
-    setError(correo, 'Por favor escribe tu correo electrónico.');
-    valido = false; primerError = primerError || correo;
-  } else if (!reCorreo.test(correo.value.trim())) {
-    setError(correo, 'Ingresa un correo electrónico válido.');
-    valido = false; primerError = primerError || correo;
+  if (correo.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo.value.trim())) {
+    setError(correo, 'Correo inválido.'); ok = false; primerError = primerError || correo;
   }
 
-  const idVal  = idPedido.value.trim();
-  const codVal = codigoTicket.value.trim();
-
-  if (!idVal && !codVal) {
-    if (comboError) {
-      comboError.textContent = 'Llena al menos uno: el ID de pedido o el código de ticket.';
-    }
-    idPedido.classList.add('invalid');
-    codigoTicket.classList.add('invalid');
-    valido = false;
-    primerError = primerError || idPedido;
-  } else {
-    if (idVal && idVal.replace(/\D/g, '').length < 8) {
-      setError(idPedido, 'Revisa el ID de pedido (mínimo 8 dígitos).');
-      valido = false; primerError = primerError || idPedido;
-    }
-    if (codVal && codVal.length < 6) {
-      setError(codigoTicket, 'Revisa el código de ticket (mínimo 6 caracteres).');
-      valido = false; primerError = primerError || codigoTicket;
-    }
+  const idP = document.getElementById('idPedido');
+  const codT = document.getElementById('codigoTicket');
+  if (!idP.value.trim() && !codT.value.trim()) {
+    const combo = document.getElementById('err-combo');
+    if (combo) combo.textContent = 'Llena al menos uno: ID de pedido o código de ticket.';
+    idP.classList.add('invalid'); codT.classList.add('invalid');
+    ok = false; primerError = primerError || idP;
   }
 
-  const descripcion = document.getElementById('descripcion');
-  if (!descripcion.value.trim()) {
-    setError(descripcion, 'Cuéntanos qué sucedió con tu pedido.');
-    valido = false; primerError = primerError || descripcion;
-  } else if (descripcion.value.trim().length < 15) {
-    setError(descripcion, 'Añade un poco más de detalle para poder ayudarte.');
-    valido = false; primerError = primerError || descripcion;
-  }
-
-  if (primerError) {
-    primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(function () { primerError.focus({ preventScroll: true }); }, 250);
-  }
-  return valido;
+  if (primerError) primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return ok;
 }
 
+/* Foto */
+document.getElementById('fotoTicket').addEventListener('change', function (e) {
+  const f = e.target.files && e.target.files[0];
+  fileName.textContent = f ? '✔ ' + f.name : '';
+});
+
 /* ============================================================
-   10) WEBHOOK (Make.com)
+   WEBHOOK
    ============================================================ */
 function enviarAlWebhook(datos) {
   try {
     const params = new URLSearchParams();
-    Object.keys(datos).forEach(function (clave) {
-      const v = datos[clave];
-      params.append(clave, (v === null || v === undefined) ? "" : String(v));
+    Object.keys(datos).forEach(function (k) {
+      const v = datos[k];
+      params.append(k, (v === null || v === undefined) ? "" : String(v));
     });
-
     fetch(WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
       body: params.toString(),
       keepalive: true
     }).catch(function () {});
-
   } catch (e) {}
 }
 
 /* ============================================================
-   11) ENVÍO DEL FORMULARIO
+   ENVÍO FINAL
    ============================================================ */
 function enviarFormulario() {
-  if (!validarPaso2()) {
-    goToStep(2);
-    return;
-  }
-
-  const esSi = document.querySelector('input[name="contacto"]:checked').value === 'si';
-  if (esSi && !validarContacto()) return;
-
-  const aspectosSeleccionados = Array.from(
-    document.querySelectorAll('input[name="aspectos"]:checked')
-  ).map(function (c) { return c.value; });
-
-  const idVal  = idPedido.value.trim();
-  const codVal = codigoTicket.value.trim();
+  const aspectos = Array.from(document.querySelectorAll('input[name="aspectos"]:checked')).map(c => c.value);
+  const comentario = document.getElementById('comentario') ? document.getElementById('comentario').value.trim() : '';
+  const descripcion = document.getElementById('descripcion') ? document.getElementById('descripcion').value.trim() : '';
+  const otroDetalle = document.getElementById('otroDetalle') ? document.getElementById('otroDetalle').value.trim() : '';
+  const idVal = document.getElementById('idPedido') ? document.getElementById('idPedido').value.trim() : '';
+  const codVal = document.getElementById('codigoTicket') ? document.getElementById('codigoTicket').value.trim() : '';
 
   const datos = {
-    sucursal:       selectSuc.value,
-    calificacion:   String(rating),
-    aspectos:       aspectosSeleccionados.join(" | "),
-    otroDetalle:    chkOtro.checked ? otroDetalle.value.trim() : "",
-    comentario:     document.getElementById('comentario').value.trim(),
-    quiereContacto: document.querySelector('input[name="contacto"]:checked').value,
-    nombre:         document.getElementById('nombre').value.trim(),
-    telefono:       document.getElementById('telefono').value.trim(),
-    correo:         document.getElementById('correo').value.trim(),
-    idPedido:       idVal,
-    codigoTicket:   codVal,
-    identificador:  idVal || codVal,
-    tipoIdentificador: idVal && codVal ? "ambos" : (idVal ? "id_pedido" : (codVal ? "codigo_ticket" : "")),
-    descripcion:    document.getElementById('descripcion').value.trim(),
-    fotoTicket:     ((document.getElementById('fotoTicket').files[0] || {}).name) || "",
-
-    test:      "chubbies-encuesta-v1",
-    origen:    "Landing Chubbies Burger - Encuesta de satisfacción",
-    timestamp: new Date().toISOString(),
-    userAgent: navigator.userAgent,
-    pagina:    window.location.href
+    sucursal:      selectSuc.value,
+    calificacion:  String(rating),
+    aspectos:      aspectos.join(" | "),
+    otroDetalle:   otroDetalle,
+    comentario:    comentario,
+    descripcion:   descripcion,
+    quiereContacto: quiereContacto ? "si" : "no",
+    nombre:        document.getElementById('nombre') ? document.getElementById('nombre').value.trim() : '',
+    telefono:      document.getElementById('telefono') ? document.getElementById('telefono').value.trim() : '',
+    correo:        document.getElementById('correo') ? document.getElementById('correo').value.trim() : '',
+    idPedido:      idVal,
+    codigoTicket:  codVal,
+    identificador: idVal || codVal,
+    fotoTicket:    ((document.getElementById('fotoTicket').files[0] || {}).name) || "",
+    test:          "chubbies-encuesta-v2-compliant",
+    origen:        "Landing Chubbies Burger - Encuesta sin filtrado",
+    timestamp:     new Date().toISOString(),
+    userAgent:     navigator.userAgent,
+    pagina:        window.location.href
   };
 
   enviarAlWebhook(datos);
 
+  // Mensaje de gracias contextual
+  thanksMsg.textContent = rating >= 4
+    ? 'Tu opinión nos ayuda a mantener la calidad. Si nos dejas una reseña en Google, nos ayudas a que más gente nos conozca.'
+    : 'Tu opinión nos ayuda a mejorar. Si quieres, también puedes compartir tu experiencia en Google.';
+
   form.classList.add('hidden');
   document.querySelector('.progress').classList.add('hidden');
   thanksScreen.classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
-  enviarFormulario();
+  if (validarContacto()) enviarFormulario();
 });
 
-/* ============================================================
-   12) ESTADO INICIAL
-   ============================================================ */
+/* Estado inicial */
 paintStars(0);
-optNo.classList.add('selected');
-step3Next.textContent = 'Enviar feedback';
 </script>
 </body>
 </html>
