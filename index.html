@@ -46,14 +46,23 @@
     height:100vh;height:100dvh;width:100%;
   }
   @media (min-width:901px){.panel-cream{position:sticky;top:0;height:100vh;height:100dvh;}}
-  @media (max-width:900px){.panel-cream{height:100vh;height:100dvh;min-height:0;}}
+  /* CAMBIO: En móvil la imagen ocupa mucho menos espacio y se adapta */
+  @media (max-width:900px){
+    .panel-cream{
+      height:42vh;
+      min-height:280px;
+      max-height:46vh;
+      background-size:cover;
+      background-position:center 35%;
+    }
+  }
 
   .panel-cream-inner{
     position:relative;z-index:1;height:100%;
     padding:40px 48px;display:flex;flex-direction:column;
     justify-content:space-between;gap:20px;overflow:hidden;
   }
-  @media (max-width:900px){.panel-cream-inner{padding:26px 22px 28px;gap:14px;}}
+  @media (max-width:900px){.panel-cream-inner{padding:18px 22px 18px;gap:10px;}}
 
   .brand{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--void);}
   .brand-mark{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;}
@@ -66,19 +75,20 @@
     letter-spacing:0.01em;text-transform:uppercase;color:var(--void);
     margin:0 0 22px;text-shadow:0 1px 2px rgba(255,237,210,0.55);
   }
-  @media (max-width:900px){.display{font-size:clamp(30px, 8.5vw, 44px);margin-bottom:14px;}}
+  @media (max-width:900px){.display{font-size:clamp(24px, 7vw, 36px);margin-bottom:10px;}}
   .lead{
     font-size:16px;font-weight:400;line-height:1.45;
     letter-spacing:-0.32px;color:var(--void);max-width:38ch;
     text-shadow:0 1px 2px rgba(255,237,210,0.55);
   }
-  @media (max-width:900px){.lead{font-size:14px;line-height:1.4;max-width:32ch;}}
+  @media (max-width:900px){.lead{font-size:13px;line-height:1.35;max-width:32ch;}}
 
   .cream-footer{
     display:flex;justify-content:space-between;align-items:center;
     padding-top:18px;border-top:1px solid rgba(13,13,13,0.18);
     font-size:12px;color:#7A6E66;flex-shrink:0;
   }
+  @media (max-width:900px){.cream-footer{padding-top:10px;font-size:10px;}}
   .cream-footer .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--void);margin-right:8px;vertical-align:1px;}
 
   /* VOID PANEL */
@@ -87,7 +97,7 @@
     padding:64px 48px;display:flex;align-items:center;justify-content:center;
     min-height:100vh;min-height:100dvh;width:100%;
   }
-  @media (max-width:900px){.panel-void{padding:40px 24px 56px;align-items:flex-start;min-height:auto;}}
+  @media (max-width:900px){.panel-void{padding:32px 22px 48px;align-items:flex-start;min-height:auto;}}
   .void-inner{width:100%;max-width:440px;}
 
   /* PROGRESS */
@@ -148,9 +158,9 @@
     animation:fadeUp .28s ease both;
   }
 
-  /* GOOGLE CTA — siempre visible para TODOS */
+  /* GOOGLE CTA — ahora al FINAL del formulario */
   .google-block{
-    margin:0 0 28px;padding:22px 20px;
+    margin:28px 0 0;padding:22px 20px;
     background:rgba(255,237,210,0.06);
     border:1px solid rgba(255,237,210,0.22);
     border-radius:12px;
@@ -174,20 +184,20 @@
     transition:all .16s ease;
     font-family:inherit;
   }
-  .btn-google:hover{background:var(--white);transform:translateY(- CH1pxIPS);}
-  .btn-google:active{transform */
-:translateY(1px);}
-  .btn -google svg{width:18px;height: .18px;flex-shrink:0;}
+  .btn-google:hover{background:var(--white);transform:translateY(-1px);}
+  .btn-google:active{transform:translateY(1px);}
+  .btn-google svg{width:18px;height:18px;flex-shrink:0;}
 
   /* DIVIDER "o" */
-  .orch-divider{
-    display:flex;align-items:center;ipsgap:12px;
-    margin:20px {0;font-size:11pxdisplay;font-weight:400;
-    letter-spacing:0.08em;:text-transform:uppercase;color:var(--muted);
+  .or-divider{
+    display:flex;align-items:center;gap:12px;
+    margin:20px 0;font-size:11px;font-weight:400;
+    letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);
   }
-  .or-dividergrid::before,.or-divider::after{content;:"";flex:1;height:1px;background:rgba(229,231,235,0.18);}
+  .or-divider::before,.or-divider::after{content:"";flex:1;height:1px;background:rgba(229,231,235,0.18);}
 
-  /*grid-template-columns:1fr 1fr;gap:8px;}
+  /* CHIPS */
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
   @media (max-width:520px){.chips{grid-template-columns:1fr;}}
   .chip{position:relative;display:block;cursor:pointer;}
   .chip input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none;}
@@ -260,6 +270,23 @@
   .thanks h2{font-size:24px;font-weight:450;line-height:1.25;color:var(--white);margin:0 0 12px;}
   .thanks p{font-size:15px;font-weight:300;line-height:1.5;color:var(--muted);max-width:38ch;margin:0 0 24px;}
 
+  /* Mensaje de redirección para 5 estrellas */
+  .redirect-msg{
+    text-align:center;padding:32px 20px;animation:fadeUp .4s ease both;
+  }
+  .redirect-msg .star-anim{
+    font-size:48px;color:var(--cream);display:block;margin-bottom:16px;
+    animation:pop .5s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .redirect-msg h2{font-size:22px;font-weight:450;line-height:1.25;color:var(--white);margin:0 0 10px;}
+  .redirect-msg p{font-size:14px;font-weight:300;line-height:1.5;color:var(--muted);max-width:36ch;margin:0 auto;}
+  .redirect-spinner{
+    width:28px;height:28px;border:2px solid rgba(255,237,210,0.25);
+    border-top-color:var(--cream);border-radius:50%;
+    margin:18px auto 0;animation:spin 0.9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
   @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;}}
 </style>
 </head>
@@ -323,35 +350,22 @@
             <p class="warning hidden" id="branchWarning" role="alert">
               Por favor selecciona primero la sucursal.
             </p>
+            <p class="label-hint" style="margin-top:10px;">Si nos das 5 estrellas, te llevaremos directo a Google para dejar tu reseña ⭐</p>
           </div>
         </section>
 
-        <!-- STEP 2 — GOOGLE CTA UNIVERSAL + FORM CONTEXTUAL -->
+        <!-- STEP 2 — SOLO FORMULARIO (1-4★). El botón de Google va al FINAL. -->
         <section class="step" data-step="2">
           <h2 class="step-title" id="step2Title">¡Gracias por tu calificación!</h2>
           <p class="step-sub" id="step2Sub">Nos encantaría saber más sobre tu experiencia.</p>
 
-          <!-- BLOQUE GOOGLE (SIEMPRE VISIBLE PARA TODOS) -->
-          <div class="google-block">
-            <p class="google-block-title">Comparte tu experiencia en Google</p>
-            <p class="google-block-sub">Tu reseña ayuda a otros a descubrirnos. Toma 30 segundos.</p>
-            <a class="btn-google" id="googleBtn1" href="#" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-              </svg>
-              Dejar reseña en Google
-            </a>
-          </div>
-
-          <div class="or-divider"><span>o</span></div>
-
-          <!-- FORM CONTEXTUAL — 1-3★ vs 4-5★ -->
+          <!-- FORM CONTEXTUAL — 1-3★ vs 4★ -->
           <div id="formContext">
             <!-- Aquí se inyecta dinámicamente según estrellas -->
           </div>
         </section>
 
-        <!-- STEP 3 — DATOS DE CONTACTO (solo si pidió atención personalizada) -->
+        <!-- STEP 3 — DATOS DE CONTACTO -->
         <section class="step" data-step="3">
           <h2 class="step-title">Déjanos tus datos</h2>
           <p class="step-sub">Nos pondremos en contacto contigo a la brevedad.</p>
@@ -405,13 +419,21 @@
 
       </form>
 
+      <!-- PANTALLA DE REDIRECCIÓN (5 estrellas) -->
+      <section id="redirectScreen" class="redirect-msg hidden">
+        <span class="star-anim" aria-hidden="true">⭐</span>
+        <h2>¡Gracias por tu calificación!</h2>
+        <p>Te estamos llevando a Google para dejar tu reseña…</p>
+        <div class="redirect-spinner" aria-hidden="true"></div>
+      </section>
+
       <!-- THANKS -->
       <section id="thanksScreen" class="thanks hidden">
         <div class="thanks-mark" aria-hidden="true">✓</div>
         <h2>¡Gracias por compartirnos tu experiencia!</h2>
         <p id="thanksMsg">Tu opinión nos ayuda a ser mejores cada día.</p>
 
-        <!-- SEGUNDO BLOQUE GOOGLE — refuerzo en pantalla final -->
+        <!-- GOOGLE CTA — al final, después de enviar el formulario -->
         <div class="google-block" style="margin-top:28px;">
           <p class="google-block-title">¿Nos regalas una reseña en Google?</p>
           <p class="google-block-sub">Es la mejor forma de apoyarnos.</p>
@@ -433,7 +455,7 @@
 /* ============================================================
    WEBHOOK MAKE.COM
    ============================================================ */
-const WEBHOOK_URL = "https://hook.us1.make.com/REEMPLAZA_ESTO_POR_TU_WEBHOOK";
+const WEBHOOK_URL = "https://hook.us2.make.com/pwrtklvvbxmnautgcsoueq13jdhqttmq";
 
 /* ============================================================
    SUCURSALES — URLs REALES DE GOOGLE REVIEWS
@@ -459,20 +481,20 @@ const sucursales = {
 /* ============================================================
    DOM
    ============================================================ */
-const form          = document.getElementById('surveyForm');
-const selectSuc     = document.getElementById('sucursal');
-const starRow       = document.getElementById('starRow');
-const stars         = Array.from(starRow.querySelectorAll('.star'));
-const branchWarning = document.getElementById('branchWarning');
-const step2Title    = document.getElementById('step2Title');
-const step2Sub      = document.getElementById('step2Sub');
-const formContext   = document.getElementById('formContext');
-const googleBtn1    = document.getElementById('googleBtn1');
-const googleBtn2    = document.getElementById('googleBtn2');
-const thanksScreen  = document.getElementById('thanksScreen');
-const thanksMsg     = document.getElementById('thanksMsg');
-const progressNums  = document.querySelectorAll('.p-num');
-const fileName      = document.getElementById('fileName');
+const form           = document.getElementById('surveyForm');
+const selectSuc      = document.getElementById('sucursal');
+const starRow        = document.getElementById('starRow');
+const stars          = Array.from(starRow.querySelectorAll('.star'));
+const branchWarning  = document.getElementById('branchWarning');
+const step2Title     = document.getElementById('step2Title');
+const step2Sub       = document.getElementById('step2Sub');
+const formContext    = document.getElementById('formContext');
+const googleBtn2     = document.getElementById('googleBtn2');
+const thanksScreen   = document.getElementById('thanksScreen');
+const thanksMsg      = document.getElementById('thanksMsg');
+const redirectScreen = document.getElementById('redirectScreen');
+const progressNums   = document.querySelectorAll('.p-num');
+const fileName       = document.getElementById('fileName');
 
 let rating = 0;
 let quiereContacto = false;
@@ -513,6 +535,11 @@ stars.forEach(function (s, i) {
 });
 starRow.addEventListener('mouseleave', function () { paintStars(rating); });
 
+/* ============================================================
+   MANEJO DE CALIFICACIÓN
+   - 5★ → redirección directa a Google
+   - 1-4★ → muestra formulario contextual
+   ============================================================ */
 function handleRating(value) {
   if (!selectSuc.value) {
     rating = 0;
@@ -525,14 +552,51 @@ function handleRating(value) {
   rating = value;
   paintStars(value);
 
-  // Configurar URL de Google para TODOS (sin excepción)
   const urlGoogle = sucursales[selectSuc.value];
-  googleBtn1.href = urlGoogle;
   googleBtn2.href = urlGoogle;
 
-  // Inyectar form contextual según estrellas
-  renderContext(value);
+  /* ⭐ 5 ESTRELLAS → REDIRECCIÓN DIRECTA A GOOGLE */
+  if (value === 5) {
+    // Enviar al webhook el registro mínimo
+    enviarAlWebhook({
+      sucursal:       selectSuc.value,
+      calificacion:   '5',
+      aspectos:       '',
+      otroDetalle:    '',
+      comentario:     '',
+      descripcion:    'Calificación de 5 estrellas — redirigido a Google',
+      quiereContacto: 'no',
+      nombre:         '',
+      telefono:       '',
+      correo:         '',
+      idPedido:       '',
+      codigoTicket:   '',
+      identificador:  '',
+      fotoTicket:     '',
+      test:           'chubbies-encuesta-v2-compliant',
+      origen:         'Landing Chubbies Burger - 5 estrellas redirect directo',
+      timestamp:      new Date().toISOString(),
+      userAgent:      navigator.userAgent,
+      pagina:          window.location.href
+    });
 
+    // Mostrar pantalla de redirección
+    form.classList.add('hidden');
+    document.querySelector('.progress').classList.add('hidden');
+    redirectScreen.classList.remove('hidden');
+    if (window.innerWidth < 901) {
+      document.querySelector('.panel-void').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Redirigir tras breve espera
+    setTimeout(function () {
+      window.location.href = urlGoogle;
+    }, 1200);
+    return;
+  }
+
+  /* 1-4 ESTRELLAS → MOSTRAR FORMULARIO CONTEXTUAL */
+  renderContext(value);
   goToStep(2);
 }
 
@@ -541,12 +605,29 @@ selectSuc.addEventListener('change', function () {
 });
 
 /* ============================================================
-   FORM CONTEXTUAL SEGÚN ESTRELLAS
-   - 4-5★: mensaje positivo + comentario opcional
-   - 1-3★: mensaje empático + opciones de mejora + Sí/No atención
+   FORM CONTEXTUAL SEGÚN ESTRELLAS (1-4)
+   - 4★: mensaje positivo + comentario opcional + Google al final
+   - 1-3★: mensaje empático + opciones de mejora + Sí/No atención + Google al final
+   El botón de Google va SIEMPRE al FINAL del formulario.
    ============================================================ */
 function renderContext(value) {
-  if (value >= 4) {
+  /* Bloque Google reutilizable (va al final del formulario) */
+  const googleBlockHTML = `
+    <div class="or-divider"><span>o</span></div>
+    <div class="google-block">
+      <p class="google-block-title">Comparte tu experiencia en Google</p>
+      <p class="google-block-sub">Tu reseña ayuda a otros a descubrirnos. Toma 30 segundos.</p>
+      <a class="btn-google google-cta-dynamic" href="${sucursales[selectSuc.value]}" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        Dejar reseña en Google
+      </a>
+    </div>
+  `;
+
+  /* ===== 4 ESTRELLAS — POSITIVO ===== */
+  if (value === 4) {
     step2Title.textContent = '¡Qué bueno que te gustó!';
     step2Sub.textContent = 'Si quieres contarnos algo más, te leemos.';
 
@@ -559,6 +640,7 @@ function renderContext(value) {
         <button type="button" class="btn btn-ghost" data-back="1">Atrás</button>
         <button type="button" class="btn btn-primary" id="btnEnviarPositivo">Enviar comentario</button>
       </div>
+      ${googleBlockHTML}
     `;
 
     document.getElementById('btnEnviarPositivo').addEventListener('click', function () {
@@ -571,7 +653,7 @@ function renderContext(value) {
     return;
   }
 
-  // 1-3★
+  /* ===== 1-3 ESTRELLAS — NEGATIVO ===== */
   step2Title.textContent = 'Lamentamos que no haya sido perfecto';
   step2Sub.textContent = 'Cuéntanos qué pasó para poder mejorar.';
 
@@ -622,6 +704,8 @@ function renderContext(value) {
       <button type="button" class="btn btn-ghost" data-back="1">Atrás</button>
       <button type="button" class="btn btn-primary" id="btnContinuar">Continuar</button>
     </div>
+
+    ${googleBlockHTML}
   `;
 
   // Lógica de "Otro"
@@ -756,31 +840,31 @@ function enviarFormulario() {
   const codVal = document.getElementById('codigoTicket') ? document.getElementById('codigoTicket').value.trim() : '';
 
   const datos = {
-    sucursal:      selectSuc.value,
-    calificacion:  String(rating),
-    aspectos:      aspectos.join(" | "),
-    otroDetalle:   otroDetalle,
-    comentario:    comentario,
-    descripcion:   descripcion,
+    sucursal:       selectSuc.value,
+    calificacion:   String(rating),
+    aspectos:       aspectos.join(" | "),
+    otroDetalle:    otroDetalle,
+    comentario:     comentario,
+    descripcion:    descripcion,
     quiereContacto: quiereContacto ? "si" : "no",
-    nombre:        document.getElementById('nombre') ? document.getElementById('nombre').value.trim() : '',
-    telefono:      document.getElementById('telefono') ? document.getElementById('telefono').value.trim() : '',
-    correo:        document.getElementById('correo') ? document.getElementById('correo').value.trim() : '',
-    idPedido:      idVal,
-    codigoTicket:  codVal,
-    identificador: idVal || codVal,
-    fotoTicket:    ((document.getElementById('fotoTicket').files[0] || {}).name) || "",
-    test:          "chubbies-encuesta-v2-compliant",
-    origen:        "Landing Chubbies Burger - Encuesta sin filtrado",
-    timestamp:     new Date().toISOString(),
-    userAgent:     navigator.userAgent,
-    pagina:        window.location.href
+    nombre:         document.getElementById('nombre') ? document.getElementById('nombre').value.trim() : '',
+    telefono:       document.getElementById('telefono') ? document.getElementById('telefono').value.trim() : '',
+    correo:         document.getElementById('correo') ? document.getElementById('correo').value.trim() : '',
+    idPedido:       idVal,
+    codigoTicket:   codVal,
+    identificador:  idVal || codVal,
+    fotoTicket:     ((document.getElementById('fotoTicket').files[0] || {}).name) || "",
+    test:           "chubbies-encuesta-v2-compliant",
+    origen:         "Landing Chubbies Burger - Encuesta sin filtrado",
+    timestamp:      new Date().toISOString(),
+    userAgent:      navigator.userAgent,
+    pagina:          window.location.href
   };
 
   enviarAlWebhook(datos);
 
   // Mensaje de gracias contextual
-  thanksMsg.textContent = rating >= 4
+  thanksMsg.textContent = rating === 4
     ? 'Tu opinión nos ayuda a mantener la calidad. Si nos dejas una reseña en Google, nos ayudas a que más gente nos conozca.'
     : 'Tu opinión nos ayuda a mejorar. Si quieres, también puedes compartir tu experiencia en Google.';
 
