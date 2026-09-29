@@ -46,7 +46,6 @@
     height:100vh;height:100dvh;width:100%;
   }
   @media (min-width:901px){.panel-cream{position:sticky;top:0;height:100vh;height:100dvh;}}
-  /* CAMBIO: En móvil la imagen ocupa mucho menos espacio y se adapta */
   @media (max-width:900px){
     .panel-cream{
       height:42vh;
@@ -158,7 +157,7 @@
     animation:fadeUp .28s ease both;
   }
 
-  /* GOOGLE CTA — ahora al FINAL del formulario */
+  /* GOOGLE CTA */
   .google-block{
     margin:28px 0 0;padding:22px 20px;
     background:rgba(255,237,210,0.06);
@@ -339,30 +338,26 @@
           </div>
 
           <div class="field" style="margin-bottom:0;">
-            <span class="label">¿Cómo calificarías tu experiencia?</span>
-            <div class="stars" id="starRow" role="radiogroup" aria-label="Calificación">
-              <button type="button" class="star" data-value="1" aria-label="1 estrella">★</button>
-              <button type="button" class="star" data-value="2" aria-label="2 estrellas">★</button>
-              <button type="button" class="star" data-value="3" aria-label="3 estrellas">★</button>
-              <button type="button" class="star" data-value="4" aria-label="4 estrellas">★</button>
-              <button type="button" class="star" data-value="5" aria-label="5 estrellas">★</button>
+            <span class="label" id="starsLabel">¿Cómo calificarías tu experiencia?</span>
+            <div class="stars" id="starRow" role="radiogroup" aria-labelledby="starsLabel">
+              <button type="button" class="star" data-value="1" role="radio" aria-checked="false" aria-label="1 estrella">★</button>
+              <button type="button" class="star" data-value="2" role="radio" aria-checked="false" aria-label="2 estrellas">★</button>
+              <button type="button" class="star" data-value="3" role="radio" aria-checked="false" aria-label="3 estrellas">★</button>
+              <button type="button" class="star" data-value="4" role="radio" aria-checked="false" aria-label="4 estrellas">★</button>
+              <button type="button" class="star" data-value="5" role="radio" aria-checked="false" aria-label="5 estrellas">★</button>
             </div>
             <p class="warning hidden" id="branchWarning" role="alert">
               Por favor selecciona primero la sucursal.
             </p>
-            <p class="label-hint" style="margin-top:10px;">Si nos das 5 estrellas, te llevaremos directo a Google para dejar tu reseña ⭐</p>
+            <p class="label-hint" style="margin-top:10px;">Si nos das 5 estrellas filiulfo estará agradecido ⭐</p>
           </div>
         </section>
 
-        <!-- STEP 2 — SOLO FORMULARIO (1-4★). El botón de Google va al FINAL. -->
+        <!-- STEP 2 — FORMULARIO CONTEXTUAL -->
         <section class="step" data-step="2">
           <h2 class="step-title" id="step2Title">¡Gracias por tu calificación!</h2>
           <p class="step-sub" id="step2Sub">Nos encantaría saber más sobre tu experiencia.</p>
-
-          <!-- FORM CONTEXTUAL — 1-3★ vs 4★ -->
-          <div id="formContext">
-            <!-- Aquí se inyecta dinámicamente según estrellas -->
-          </div>
+          <div id="formContext"></div>
         </section>
 
         <!-- STEP 3 — DATOS DE CONTACTO -->
@@ -420,7 +415,7 @@
       </form>
 
       <!-- PANTALLA DE REDIRECCIÓN (5 estrellas) -->
-      <section id="redirectScreen" class="redirect-msg hidden">
+      <section id="redirectScreen" class="redirect-msg hidden" aria-live="polite">
         <span class="star-anim" aria-hidden="true">⭐</span>
         <h2>¡Gracias por tu calificación!</h2>
         <p>Te estamos llevando a Google para dejar tu reseña…</p>
@@ -428,12 +423,11 @@
       </section>
 
       <!-- THANKS -->
-      <section id="thanksScreen" class="thanks hidden">
+      <section id="thanksScreen" class="thanks hidden" aria-live="polite">
         <div class="thanks-mark" aria-hidden="true">✓</div>
         <h2>¡Gracias por compartirnos tu experiencia!</h2>
         <p id="thanksMsg">Tu opinión nos ayuda a ser mejores cada día.</p>
 
-        <!-- GOOGLE CTA — al final, después de enviar el formulario -->
         <div class="google-block" style="margin-top:28px;">
           <p class="google-block-title">¿Nos regalas una reseña en Google?</p>
           <p class="google-block-sub">Es la mejor forma de apoyarnos.</p>
@@ -495,9 +489,11 @@ const thanksMsg      = document.getElementById('thanksMsg');
 const redirectScreen = document.getElementById('redirectScreen');
 const progressNums   = document.querySelectorAll('.p-num');
 const fileName       = document.getElementById('fileName');
+const progressNav    = document.querySelector('.progress');
 
 let rating = 0;
 let quiereContacto = false;
+let submitted = false;
 
 /* Cargar sucursales */
 Object.keys(sucursales).forEach(function (n) {
@@ -506,7 +502,9 @@ Object.keys(sucursales).forEach(function (n) {
   selectSuc.appendChild(o);
 });
 
-/* Navegación */
+/* ============================================================
+   Navegación entre pasos
+   ============================================================ */
 function goToStep(n) {
   document.querySelectorAll('.step').forEach(function (s) {
     s.classList.toggle('active', Number(s.dataset.step) === Number(n));
@@ -521,10 +519,22 @@ function goToStep(n) {
   }
 }
 
-/* Estrellas */
+/* FIX: delegación de eventos para TODOS los botones "Atrás"
+   (esto arregla el botón "Atrás" del paso 3, que antes no hacía nada) */
+document.addEventListener('click', function (e) {
+  const back = e.target.closest('[data-back]');
+  if (!back) return;
+  e.preventDefault();
+  goToStep(Number(back.dataset.back));
+});
+
+/* ============================================================
+   Estrellas
+   ============================================================ */
 function paintStars(n) {
   stars.forEach(function (s, i) {
-    s.classList.toggle('on', i < n);
+    const on = i < n;
+    s.classList.toggle('on', on);
     s.setAttribute('aria-checked', (i === n - 1) ? 'true' : 'false');
   });
 }
@@ -535,10 +545,22 @@ stars.forEach(function (s, i) {
 });
 starRow.addEventListener('mouseleave', function () { paintStars(rating); });
 
+/* Reset al cambiar de sucursal (FIX: antes quedaba "colgado")
+   Si ya había calificación, limpiamos el paso 2 y volvemos al 1 */
+selectSuc.addEventListener('change', function () {
+  if (selectSuc.value) branchWarning.classList.add('hidden');
+  if (rating > 0) {
+    rating = 0;
+    paintStars(0);
+    formContext.innerHTML = '';
+    goToStep(1);
+  }
+});
+
 /* ============================================================
-   MANEJO DE CALIFICACIÓN
+   Manejo de calificación
    - 5★ → redirección directa a Google
-   - 1-4★ → muestra formulario contextual
+   - 1-4★ → formulario contextual
    ============================================================ */
 function handleRating(value) {
   if (!selectSuc.value) {
@@ -557,7 +579,6 @@ function handleRating(value) {
 
   /* ⭐ 5 ESTRELLAS → REDIRECCIÓN DIRECTA A GOOGLE */
   if (value === 5) {
-    // Enviar al webhook el registro mínimo
     enviarAlWebhook({
       sucursal:       selectSuc.value,
       calificacion:   '5',
@@ -577,47 +598,37 @@ function handleRating(value) {
       origen:         'Landing Chubbies Burger - 5 estrellas redirect directo',
       timestamp:      new Date().toISOString(),
       userAgent:      navigator.userAgent,
-      pagina:          window.location.href
+      pagina:         window.location.href
     });
 
-    // Mostrar pantalla de redirección
     form.classList.add('hidden');
-    document.querySelector('.progress').classList.add('hidden');
+    progressNav.classList.add('hidden');
     redirectScreen.classList.remove('hidden');
     if (window.innerWidth < 901) {
       document.querySelector('.panel-void').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // Redirigir tras breve espera
     setTimeout(function () {
-      window.location.href = urlGoogle;
+      window.location.assign(urlGoogle);
     }, 1200);
     return;
   }
 
-  /* 1-4 ESTRELLAS → MOSTRAR FORMULARIO CONTEXTUAL */
+  /* 1-4 ESTRELLAS → FORMULARIO CONTEXTUAL */
   renderContext(value);
   goToStep(2);
 }
 
-selectSuc.addEventListener('change', function () {
-  if (selectSuc.value) branchWarning.classList.add('hidden');
-});
-
 /* ============================================================
-   FORM CONTEXTUAL SEGÚN ESTRELLAS (1-4)
-   - 4★: mensaje positivo + comentario opcional + Google al final
-   - 1-3★: mensaje empático + opciones de mejora + Sí/No atención + Google al final
-   El botón de Google va SIEMPRE al FINAL del formulario.
+   Form contextual según estrellas
    ============================================================ */
 function renderContext(value) {
-  /* Bloque Google reutilizable (va al final del formulario) */
   const googleBlockHTML = `
     <div class="or-divider"><span>o</span></div>
     <div class="google-block">
       <p class="google-block-title">Comparte tu experiencia en Google</p>
       <p class="google-block-sub">Tu reseña ayuda a otros a descubrirnos. Toma 30 segundos.</p>
-      <a class="btn-google google-cta-dynamic" href="${sucursales[selectSuc.value]}" target="_blank" rel="noopener noreferrer">
+      <a class="btn-google" href="${sucursales[selectSuc.value]}" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
         </svg>
@@ -626,7 +637,7 @@ function renderContext(value) {
     </div>
   `;
 
-  /* ===== 4 ESTRELLAS — POSITIVO ===== */
+  /* ===== 4 ESTRELLAS ===== */
   if (value === 4) {
     step2Title.textContent = '¡Qué bueno que te gustó!';
     step2Sub.textContent = 'Si quieres contarnos algo más, te leemos.';
@@ -647,13 +658,10 @@ function renderContext(value) {
       quiereContacto = false;
       enviarFormulario();
     });
-    document.querySelectorAll('[data-back="1"]').forEach(b =>
-      b.addEventListener('click', () => goToStep(1))
-    );
     return;
   }
 
-  /* ===== 1-3 ESTRELLAS — NEGATIVO ===== */
+  /* ===== 1-3 ESTRELLAS ===== */
   step2Title.textContent = 'Lamentamos que no haya sido perfecto';
   step2Sub.textContent = 'Cuéntanos qué pasó para poder mejorar.';
 
@@ -715,27 +723,30 @@ function renderContext(value) {
   chkOtro.addEventListener('change', function () {
     otroWrap.classList.toggle('hidden', !chkOtro.checked);
     if (chkOtro.checked) setTimeout(() => otroDetalle.focus({ preventScroll: true }), 100);
-    else otroDetalle.value = '';
+    else { otroDetalle.value = ''; setError(otroDetalle, ''); }
   });
+  otroDetalle.addEventListener('input', function () { setError(otroDetalle, ''); });
 
   // Selección Sí/No
   document.querySelectorAll('input[name="contacto"]').forEach(function (r) {
     r.addEventListener('change', function () {
-      document.getElementById('optSi').classList.toggle('selected', document.querySelector('input[name="contacto"]:checked').value === 'si');
-      document.getElementById('optNo').classList.toggle('selected', document.querySelector('input[name="contacto"]:checked').value === 'no');
+      const val = document.querySelector('input[name="contacto"]:checked').value;
+      document.getElementById('optSi').classList.toggle('selected', val === 'si');
+      document.getElementById('optNo').classList.toggle('selected', val === 'no');
     });
   });
 
+  // Textarea: limpiar error al escribir
+  const desc = document.getElementById('descripcion');
+  desc.addEventListener('input', function () { setError(desc, ''); });
+
   // Botón Continuar
   document.getElementById('btnContinuar').addEventListener('click', function () {
-    // Validar "Otro"
     if (chkOtro.checked && !otroDetalle.value.trim()) {
       setError(otroDetalle, 'Cuéntanos qué otro aspecto.');
       otroDetalle.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-    // Validar descripción
-    const desc = document.getElementById('descripcion');
     if (!desc.value.trim() || desc.value.trim().length < 15) {
       setError(desc, 'Añade un poco más de detalle (mínimo 15 caracteres).');
       desc.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -748,10 +759,6 @@ function renderContext(value) {
       enviarFormulario();
     }
   });
-
-  document.querySelectorAll('[data-back="1"]').forEach(b =>
-    b.addEventListener('click', () => goToStep(1))
-  );
 }
 
 /* ============================================================
@@ -769,9 +776,13 @@ function clearAllErrors() {
   });
   const combo = document.getElementById('err-combo');
   if (combo) combo.textContent = '';
+  const idP = document.getElementById('idPedido');
+  const codT = document.getElementById('codigoTicket');
+  if (idP) idP.classList.remove('invalid');
+  if (codT) codT.classList.remove('invalid');
 }
 
-/* Validación step 3 */
+/* Validación paso 3 */
 function validarContacto() {
   clearAllErrors();
   let ok = true;
@@ -803,6 +814,21 @@ function validarContacto() {
   return ok;
 }
 
+/* FIX: limpiar errores en tiempo real al escribir en step 3 */
+['nombre','telefono','correo','idPedido','codigoTicket'].forEach(function (id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', function () {
+    setError(el, '');
+    if (id === 'idPedido' || id === 'codigoTicket') {
+      const combo = document.getElementById('err-combo');
+      if (combo) combo.textContent = '';
+      document.getElementById('idPedido').classList.remove('invalid');
+      document.getElementById('codigoTicket').classList.remove('invalid');
+    }
+  });
+});
+
 /* Foto */
 document.getElementById('fotoTicket').addEventListener('change', function (e) {
   const f = e.target.files && e.target.files[0];
@@ -832,6 +858,9 @@ function enviarAlWebhook(datos) {
    ENVÍO FINAL
    ============================================================ */
 function enviarFormulario() {
+  if (submitted) return;
+  submitted = true;
+
   const aspectos = Array.from(document.querySelectorAll('input[name="aspectos"]:checked')).map(c => c.value);
   const comentario = document.getElementById('comentario') ? document.getElementById('comentario').value.trim() : '';
   const descripcion = document.getElementById('descripcion') ? document.getElementById('descripcion').value.trim() : '';
@@ -858,18 +887,17 @@ function enviarFormulario() {
     origen:         "Landing Chubbies Burger - Encuesta sin filtrado",
     timestamp:      new Date().toISOString(),
     userAgent:      navigator.userAgent,
-    pagina:          window.location.href
+    pagina:         window.location.href
   };
 
   enviarAlWebhook(datos);
 
-  // Mensaje de gracias contextual
   thanksMsg.textContent = rating === 4
     ? 'Tu opinión nos ayuda a mantener la calidad. Si nos dejas una reseña en Google, nos ayudas a que más gente nos conozca.'
     : 'Tu opinión nos ayuda a mejorar. Si quieres, también puedes compartir tu experiencia en Google.';
 
   form.classList.add('hidden');
-  document.querySelector('.progress').classList.add('hidden');
+  progressNav.classList.add('hidden');
   thanksScreen.classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
